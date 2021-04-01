@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "colorfulKCenter", "colorfulKCenter.pyproj", "{E4C2BB55-9AE5-4C99-BAF2-2DAA9BDF749C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4C2BB55-9AE5-4C99-BAF2-2DAA9BDF749C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C2BB55-9AE5-4C99-BAF2-2DAA9BDF749C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0FFE771F-28FF-4CE0-9F83-5AA3A211CA44}
+	EndGlobalSection
+EndGlobal
