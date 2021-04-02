@@ -5,19 +5,19 @@ def getInput():
     default = "y";
     #default = input()
     nColors = 1
-    nCenters = 3
-    nPoints = array([10])
-    p = array([10])
+    nCenters = 10
+    nPoints = array([50])
+    p = array([50])
     if default == "n":
         print("# colors? (1)")
         nColors = int(input())
         assert nColors >= 1 and nColors <= 1
-        print("# centers? (1 - 10)")
+        print("# centers? (1 - 1000)")
         nCenters = int(input())
-        assert nCenters >= 1 and nCenters <= 10
-        print("# points? (1 - 50)")
+        assert nCenters >= 1 and nCenters <= 1000
+        print("# points? (1 - 1000)")
         nPoints[0] = int(input())
-        assert nPoints[0] >= 1 and nPoints <= 50
+        assert nPoints[0] >= 1 and nPoints <= 1000
         print("# points to be covered? (1 - # points)")
         p[0] = int(input())
         assert p[0] <= nPoints
