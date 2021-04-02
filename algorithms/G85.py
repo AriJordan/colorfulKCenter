@@ -5,7 +5,7 @@ def algoG85(nCenters, nPoints, graph):
     assert len(graph) == 1 # 1 color
     assert len(graph[0]) == nPoints
     minDists = full(nPoints[0], inf)
-    centerIds = full((nCenters, 2), (-1, -1))
+    centerIds = full((nCenters, 2), -1)
     taken = zeros(nPoints)
     for centerId in range(nCenters):
         bestCenterId = -1
