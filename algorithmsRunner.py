@@ -35,18 +35,18 @@ class algorithmsRunner():
             for pointId in range(0, self.nPoints[col]):
                 for centerCol, centerId in centerIds:
                     minDists[pointId] = min(minDists[pointId], graph[col][pointId][centerCol][centerId])
-            sort(minDists)
+            minDists.sort()
             maxDist = max(maxDist, minDists[self.p[col] - 1])
         return maxDist
 
-    def addResult(self, results, centerIds, graph):
-        results.append(result(self.calcMinRadius(centerIds, graph), centerIds))
+    def addResult(self, points, results, centerIds, graph):
+        results.append(result(points, self.calcMinRadius(centerIds, graph), centerIds))
 
     def runAlgorithmsOnce(self):
         points, graph = self.createPointsGraph()
         results = [] # python list because of append()
         
         if self.nColors == 1 and self.nPoints[0] == self.p[0]: # no outliers
-            self.addResult(results, algoG85(self.nCenters, self.nPoints, graph), graph)
+            self.addResult(points, results, algoG85(self.nCenters, self.nPoints, graph), graph)
             #addResult(results, algoHS86(points))
             return results
