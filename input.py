@@ -7,7 +7,7 @@ def getInput():
     nColors = 1
     nCenters = 10
     nPoints = array([50])
-    p = array([50])
+    p = array([45])
     if default == "n":
         print("# colors? (1)")
         nColors = int(input())

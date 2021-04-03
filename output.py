@@ -6,6 +6,7 @@ def printOutput(results):
     algoColors = {
       "G85": "k",
       "HS86": "g",
+      "CKMN01": "m",
     }
     for result in results:
         print(result.radius)       
