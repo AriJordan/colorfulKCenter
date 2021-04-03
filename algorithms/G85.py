@@ -1,6 +1,6 @@
 from numpy import array, full, zeros, inf
 
-# return 2-approximation by Gonzales
+# Return: 2-approximation by Gonzales
 def algoG85(nCenters, nPoints, graph):
     assert len(graph) == 1 # 1 color
     assert len(graph[0]) == nPoints

@@ -2,7 +2,7 @@ from random import random
 from numpy import array, full, zeros, append, amax, linalg, sort, inf
 from result import result
 from algorithms.G85 import algoG85
-#from algorithms.HS86 import algoHS86
+from algorithms.HS86 import algoHS86
 
 class algorithmsRunner():
     def __init__(self, nColors, nCenters, nPoints, p):
@@ -18,7 +18,6 @@ class algorithmsRunner():
             for pointId in range(0, self.nPoints[col]):
                 for dim in range(0, EuclidDim):
                     points[col][pointId][dim] = random()
-        print(points)
         graph = zeros((self.nColors, amax(self.nPoints), self.nColors, amax(self.nPoints))) # Indices: col1, point1Id, col2, point2Id
         for col1 in range(0, self.nColors):
             for point1Id in range(0, self.nPoints[col1]):
@@ -39,14 +38,14 @@ class algorithmsRunner():
             maxDist = max(maxDist, minDists[self.p[col] - 1])
         return maxDist
 
-    def addResult(self, points, results, centerIds, graph):
-        results.append(result(points, self.calcMinRadius(centerIds, graph), centerIds))
+    def addResult(self, algoName, points, results, centerIds, graph):
+        results.append(result(algoName, points, self.calcMinRadius(centerIds, graph), centerIds))
 
     def runAlgorithmsOnce(self):
         points, graph = self.createPointsGraph()
         results = [] # python list because of append()
         
         if self.nColors == 1 and self.nPoints[0] == self.p[0]: # no outliers
-            self.addResult(points, results, algoG85(self.nCenters, self.nPoints, graph), graph)
-            #addResult(results, algoHS86(points))
+            self.addResult("G85", points, results, algoG85(self.nCenters, self.nPoints, graph), graph)
+            self.addResult("HS86", points, results, algoHS86(self.nCenters, self.nPoints, graph), graph)
             return results
