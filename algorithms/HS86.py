@@ -10,7 +10,7 @@ def fixedRadiusHS86(nColors, nCenters, nPoints, p, graph, radius):
 			if pointsLeft[candidateId]:
 				centerIds[centerId] = [0, candidateId]
 				for removeId in range(nPoints[0]):
-					if graph[0][candidateId][0][removeId] < radius:
+					if graph[0][candidateId][0][removeId] < 2 * radius:
 						pointsLeft[removeId] = False
 				break
 	success = True

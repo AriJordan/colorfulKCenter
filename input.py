@@ -1,4 +1,5 @@
 from numpy import array
+from random import seed
 
 def getInput():
     print("Default (y/n)?")
@@ -8,6 +9,8 @@ def getInput():
     nCenters = 10
     nPoints = array([50])
     p = array([45])
+    rSeed = 42
+    seed(rSeed)
     if default == "n":
         print("# colors? (1)")
         nColors = int(input())
