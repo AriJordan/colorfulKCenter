@@ -45,9 +45,11 @@ class LPSolver():
         self.D[r][s] = inv
         self.B[r], self.N[s] = self.N[s], self.B[r]
 
+    # Return: Whether (a1, a2) < (b1, b2)
     def lexLess(self, a1, a2, b1, b2):
         return a1 < b1 or (a1 == b1 and a2 < b2)
 
+    # Return: New pivot if better
     def minPivot(self, Di, N, j, s):
         if s == -1 or self.lexLess(Di[j], N[j], Di[s], N[s]):
             return j

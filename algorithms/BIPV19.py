@@ -50,6 +50,8 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
 		for u in D_v:
 			remPoints[u] = 0
 		D[v_max] = D_v
+
+	# Make integral
 	for v in range(nPoints[0]):
 		if S[v] and 1e-6 <= x[v] and x[v] <= 1 - 1e-6:
 			for w in range(nPoints[0]):
@@ -75,6 +77,8 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
 	for v in range(nPoints[0]):
 		if S[v] and x[v] == 0:
 			S[v] = 0
+
+	# Create and test resulting centers
 	assert sum(x) <= nCenters + 1e-6 and sum(x) >= 1 - 1e-6
 	centerIds = full((nCenters, 2), -1)
 	centerId = 0
