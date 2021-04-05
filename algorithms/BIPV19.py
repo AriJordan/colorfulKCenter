@@ -31,19 +31,7 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
 	S = zeros((nPoints[0]))
 	nPointsRem = nPoints[0]
 	D = [[] for _ in range(nPoints[0])]
-	while nPointsRem > 0 and max(z * remPoints) > 0:
-		###
-		"""
-		B_xvSums = zeros((nPoints[0]))
-		for v in range(nPoints[0]):
-			B_xvSum = 0
-			for u in range(nPoints[0]):
-				if graph[0][v][0][u] < radius:
-					B_xvSum += x[u]
-			B_xvSums[v] = B_xvSum
-		"""
-
-		###
+	while max(z * remPoints) > 0:
 		v_max = argmax(z * remPoints)
 		S[v_max] = 1
 		x[v_max] = min(1.0, sum((graph[0][v_max][0][u] < radius) * x[u] for u in range(nPoints[0])))
