@@ -6,9 +6,9 @@ def getInput():
     default = "y";
     #default = input()
     nColors = 1
-    nCenters = 10
-    nPoints = array([50])
-    p = array([45])
+    nCenters = 4
+    nPoints = array([20])
+    p = array([15])
     #rSeed = 42
     #seed(rSeed)
     if default == "n":

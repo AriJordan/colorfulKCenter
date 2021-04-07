@@ -4,6 +4,7 @@ from numpy import zeros
 def printOutput(results):
     pointColors = ["r", "b"]
     algoColors = {
+      "Optimal" : "y",
       "G85": "k",
       "HS86": "g",
       "CKMN01": "m",

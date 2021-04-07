@@ -1,6 +1,7 @@
 from random import random
-from numpy import array, full, zeros, append, amax, linalg, sort, inf
+from numpy import array, append, amax, full, linalg, resize, sort, inf, zeros
 from result import result
+from algorithms.bruteForce import algoBruteForce
 from algorithms.G85 import algoG85
 from algorithms.HS86 import algoHS86
 from algorithms.CKMN01 import algoCKMN01
@@ -41,6 +42,11 @@ class algorithmsRunner():
         return maxDist
 
     def addResult(self, algoName, points, results, centerIds, graph):
+        for centerId in range(self.nCenters):
+            if centerIds[centerId][0] == -1:
+                assert centerIds[centerId][1] == -1
+                centerIds = resize(centerIds, (centerId + 1, 2))
+                break
         results.append(result(algoName, points, self.calcMinRadius(centerIds, graph), centerIds))
 
     def runAlgorithmsOnce(self):
@@ -48,6 +54,7 @@ class algorithmsRunner():
         results = [] # python list because of append()
         
         if self.nColors == 1: # and self.nPoints[0] == self.p[0]: # no outliers
+            self.addResult("Optimal", points, results, algoBruteForce(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
             self.addResult("G85", points, results, algoG85(self.nCenters, self.nPoints, graph), graph)
             self.addResult("HS86", points, results, algoHS86(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
             self.addResult("CKMN01", points, results, algoCKMN01(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
