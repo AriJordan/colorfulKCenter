@@ -6,6 +6,7 @@ from algorithms.G85 import algoG85
 from algorithms.HS86 import algoHS86
 from algorithms.CKMN01 import algoCKMN01
 from algorithms.BIPV19 import algoBIPV19
+from algorithms.randomCenters import algoRandomCenters
 
 class algorithmsRunner():
     def __init__(self, nColors, nCenters, nPoints, p):
@@ -59,4 +60,5 @@ class algorithmsRunner():
             self.addResult("HS86", points, results, algoHS86(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
             self.addResult("CKMN01", points, results, algoCKMN01(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
             self.addResult("BIPV19", points, results, algoBIPV19(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
+            self.addResult("Random", points, results, algoRandomCenters(self.nColors, self.nCenters, self.nPoints, self.p, graph), graph)
             return results

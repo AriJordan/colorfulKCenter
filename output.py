@@ -8,7 +8,8 @@ def printOutput(results):
       "G85": "k",
       "HS86": "g",
       "CKMN01": "m",
-      "BIPV19": "c",
+      "BIPV19": "c",     
+      "Random" : "b",
     }
     for result in results:
         print(result.radius)       
