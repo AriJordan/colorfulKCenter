@@ -1,4 +1,4 @@
-from numpy import random as rand
+from numpy import random
 from numpy import full, resize
 
 def algoRandomCenters(nColors, nCenters, nPoints, p, graph):
@@ -8,6 +8,5 @@ def algoRandomCenters(nColors, nCenters, nPoints, p, graph):
         for pointId in range(nPoints[col]):
             allIds[id] = [col, pointId]
             id += 1
-    rng = rand.default_rng()
-    rng.shuffle(allIds)
+    random.shuffle(allIds)
     return resize(allIds, (nCenters, 2))
