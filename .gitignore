@@ -1,6 +1,7 @@
 ### Added by hand ###
 *.pyproj
 *.sln
+t.py
 
 ### Rest automatically generated ###
 ## Ignore Visual Studio temporary files, build results, and
