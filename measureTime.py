@@ -9,34 +9,45 @@ try:
 except:
     assert False, "Please first run main.py to create configuration.py"
 
-nCentersList = [2, 5, 10, 20, 50, 100]
-maxPoints = 100
-maxTime = 1.0
+### Only change these ###
+# Recommended: nCentersList = [2, 5, 15], maxPoints = 200, maxTime = 0.3 (ca. 1 minute)
+nCentersList = [2, 5, 15] # Different numbers of centers
+maxPoints = 200 # Maximum number of points
+maxTime = 0.3 # Maximum time allowed per algorithm run
+#########################
 
-allResults = [[] for _ in range(len(algoList))]
-
-algoSelection = full((len(algoList)), False)
-for algoId in range(len(algoList)):
-    if configuration["algoLetters"].count(algoList[algoId].letter):
-        algoSelection[algoId] = True
-
-nCenters = 5
-for nPoints in range(nCenters, maxPoints):
-    algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCenters, [nPoints], [nPoints], False)
-    results = algoRunner.runAlgorithmsOnce()
-    for res in results:
-        allResults[res.algoId].append(res.timeConsumed)
-        if res.timeConsumed > maxTime: # Don't run algorithms for more than a second
-            algoSelection[res.algoId] = False
+fig, axs = plt.subplots(1, len(nCentersList), figsize=(6 * len(nCentersList), 5))
+fig.suptitle('Runtime of different algorithms')
+plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []
-for algoId in range(len(algoList)):
-    line, = plt.loglog([i for i in range (nCenters, nCenters + len(allResults[algoId]))], allResults[algoId], color = algoList[algoId].color)
-    legendLines.append(line)
-    legendNames.append(algoList[algoId].name)
-plt.title("#centers = " + str(nCenters))
-plt.legend(legendLines, legendNames)
-plt.xlabel('#points')
-plt.ylabel('time consumed')
+nPointsList = [[] for _ in range(len(nCentersList))]
+for nCentersId in range(len(nCentersList)):
+    allResults = [[] for _ in range(len(algoList))]
+
+    algoSelection = full((len(algoList)), False)
+    for algoId in range(len(algoList)):
+        if configuration["algoLetters"].count(algoList[algoId].letter):
+            algoSelection[algoId] = True
+
+    nPoints = nCentersList[nCentersId]
+    while nPoints <= maxPoints:
+        nPointsList[nCentersId].append(nPoints)
+        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCentersList[nCentersId], [nPoints], [nPoints], False)
+        results = algoRunner.runAlgorithmsOnce()
+        for res in results:
+            allResults[res.algoId].append(res.timeConsumed)
+            if res.timeConsumed > maxTime: # Don't run algorithms for more than a second
+                algoSelection[res.algoId] = False
+        nPoints = int(nPoints * 1.05 + 1)
+          
+    for algoId in range(len(algoList)):
+        line, = axs[nCentersId].loglog(nPointsList[nCentersId][0:len(allResults[algoId])], allResults[algoId], color = algoList[algoId].color)
+        if nCentersId == 0:
+            legendLines.append(line)
+            legendNames.append(algoList[algoId].name)
+    axs[nCentersId].set_title("#centers = " + str(nCentersList[nCentersId]))  
+    axs[nCentersId].set(xlabel='#points', ylabel='time consumed')
+    axs[nCentersId].legend(legendLines, legendNames)
 plt.show()
 

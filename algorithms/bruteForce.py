@@ -8,7 +8,7 @@ def recursiveBruteForce(nColors, nCenters, nPoints, p, graph, nCentersChosen, ne
     bestRadius = inf
     bestCenters = full((nCenters, 2), -1)
     col1 = 0 # TODO: handle different colors
-    for candidateId in range(nextId, nPoints[col1]):# - (nCenters - nCentersChosen - 1)):   
+    for candidateId in range(nextId, nPoints[col1] - (nCenters - nCentersChosen - 1)):   
         newClosestCenterDist = copy(closestCenterDist)
         # Pick candidateId as new center
         currentCenterIds[nCentersChosen] = [col1, candidateId]
