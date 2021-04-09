@@ -3,7 +3,7 @@ from numpy import array, full, zeros, inf
 # Return: 2-approximation by Gonzales
 def algoG85(nColors, nCenters, nPoints, p, graph):
     assert nColors == 1 and len(graph) == 1
-    assert len(graph[0]) == nPoints
+    assert len(graph[0]) == nPoints[0]
     minDists = full(nPoints[0], inf)
     centerIds = full((nCenters, 2), -1)
     taken = zeros(nPoints)

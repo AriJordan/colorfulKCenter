@@ -56,7 +56,7 @@ class algorithmsRunner():
         startTime = timer()
         centerIds = algoList[algoId].algo(self.nColors, self.nCenters, self.nPoints, self.p, graph)
         endTime = timer()
-        print("Time consumed: " + str(endTime - startTime) + " seconds")
+        print("Time consumed: " + str(round(endTime - startTime, 6)) + " seconds")
         self.addResult(algoId, results, points, graph, centerIds, endTime - startTime)
 
 

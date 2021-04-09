@@ -2,6 +2,7 @@
 *.pyproj
 *.sln
 t.py
+configuration.py
 
 ### Rest automatically generated ###
 ## Ignore Visual Studio temporary files, build results, and
