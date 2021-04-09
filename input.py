@@ -1,7 +1,8 @@
-from numpy import array
-from os import execl
 from numpy import random
+from os import execl
 import sys
+from numpy import array, full
+from algorithms.algoInfo import algoList
 
 # Summary: Read parameters from "configuration.py"
 #          If it fails, user is asked to create new parameters
@@ -10,12 +11,19 @@ def getInput():
     try:
         from configuration import configuration
         print("Parameters taken from configuration.py")
-        print("You can change or delete configuration.py and rerun")
+        print("You can change or delete configuration.py and rerun program")
+        algoSelection = full((len(algoList)), False)
+        for algoId in range(len(algoList)):
+            if configuration["algoLetters"].count(algoList[algoId].letter):
+                algoSelection[algoId] = True
         if configuration["fixSeed"]:
             random.seed(42)
-        return configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["shufflePoints"]
+        return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["shufflePoints"]
     except:
         confFile = open("configuration.py", "w")
+        algoLetters = ""
+        for algoInfo in algoList:
+            algoLetters = algoLetters + algoInfo.letter
         nColors = 1
         nCenters = 4
         nPoints = array([20])
@@ -26,6 +34,11 @@ def getInput():
         default = input()
         assert default == "y" or default == "n", "please restart and enter y or n instead"
         if default == "n":
+            print("Enter letters for algorithms to run:")
+            for algoInfo in algoList:
+                print(algoInfo.letter + " for " + algoInfo.name)
+            print("For example enter \"" + algoLetters + "\" (without quotes) to run all algorithms")
+            algoLetters = input()
             print("#colors? (1)")
             nColors = int(input())
             assert nColors >= 1 and nColors <= 1
@@ -46,8 +59,11 @@ def getInput():
                 fixSeed = True
         else:
             assert default == "y", "default should be y or n"
+
+        # Wrîte file configuration.py
         confFile.write("from numpy import array\n")
         confFile.write("configuration = {\n")
+        confFile.write("    \"algoLetters\" : \"" + algoLetters + "\",\n")
         confFile.write("    \"nColors\" : " + str(nColors) + ",\n")
         confFile.write("    \"nCenters\" : " + str(nCenters) + ",\n")
         confFile.write("    \"nPoints\" : array(["+ str(nPoints[0]))
@@ -64,5 +80,6 @@ def getInput():
         confFile.write("}\n")
         confFile.close()
         print("Parameters written to configuration.py")
+
         # Restart
         execl(sys.executable, '"{}"'.format(sys.executable), *sys.argv)

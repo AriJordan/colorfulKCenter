@@ -1,16 +1,9 @@
 import matplotlib.pyplot as plt
 from numpy import zeros
+from algorithms.algoInfo import algoList
 
 def printOutput(results):
     pointColors = ["r", "b"]
-    algoColors = {
-      "Optimal" : "y",
-      "G85": "k",
-      "HS86": "g",
-      "CKMN01": "m",
-      "BIPV19": "c",     
-      "Random" : "b",
-    }
     for result in results:
         print(result.radius)       
     fig, ax = plt.subplots()
@@ -20,9 +13,9 @@ def printOutput(results):
         for centerCol, centerId in result.centerIds:
             x = result.points[centerCol][centerId][0]
             y = result.points[centerCol][centerId][1]
-            circle = ax.add_patch(plt.Circle((x, y), result.radius, color=algoColors[result.algoName], fill=False))
+            circle = ax.add_patch(plt.Circle((x, y), result.radius, color=algoList[result.algoId].color, fill=False))
         legendCircles.append(circle)
-        legendNames.append(result.algoName + ": " + str(round(result.radius, 3)))
+        legendNames.append(algoList[result.algoId].name + ": " + str(round(result.radius, 3)))
         for pointCol in range(len(result.points)):
             for pointId in range(len(result.points[pointCol])):
                 x = result.points[pointCol][pointId][0]
