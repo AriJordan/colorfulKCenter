@@ -18,7 +18,7 @@ def getInput():
                 algoSelection[algoId] = True
         if configuration["fixSeed"]:
             random.seed(42)
-        return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["shufflePoints"]
+        return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["shufflePoints"], configuration["coordinateDistribution"]
     except:
         confFile = open("configuration.py", "w")
         algoLetters = ""
@@ -30,6 +30,7 @@ def getInput():
         p = array([15])
         shufflePoints = True
         fixSeed = False
+        distribution = "uniform"
         print("Default? (y/n)")
         default = input()
         assert default == "y" or default == "n", "please restart and enter y or n instead"
@@ -57,6 +58,13 @@ def getInput():
             print("Fix seed? (y/n)")
             if input() == "y": 
                 fixSeed = True
+            distributions = ["uniform", "normal", "exponential"]
+            distribution = input()
+            print("What coordinate distribution? Options are:")
+            for dist in distributions:
+                print("\"" + dist + "\"", sep = ", ")
+            print("(witout quotes)")
+            assert distribution == "uniform" or distribution == "normal" or distribution == "exponential"
         else:
             assert default == "y", "default should be y or n"
 
@@ -76,6 +84,7 @@ def getInput():
         confFile.write("]),\n")
         confFile.write("    \"shufflePoints\" : " + str(shufflePoints) + ",\n")
         confFile.write("    \"fixSeed\" : " + str(fixSeed) + ",\n")
+        confFile.write("    \"coordinateDistribution\" : \"" + distribution + "\",\n")
         
         confFile.write("}\n")
         confFile.close()

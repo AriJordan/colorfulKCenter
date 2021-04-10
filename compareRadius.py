@@ -34,7 +34,7 @@ for subplotId in range(nSubplots):
             algoSelection[algoId] = True
 
     for run in range(nRuns):
-        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCenters, [nPoints], [nPoints - nOutliers], False)
+        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCenters, [nPoints], [nPoints - nOutliers], False, configuration["coordinateDistribution"])
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.radius)
