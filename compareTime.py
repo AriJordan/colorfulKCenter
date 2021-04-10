@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 from numpy import full
 from algorithmsRunner import algorithmsRunner
 from result import result
-from output import printOutput
 from algorithms.algoInfo import algoList
 try:
     from configuration import configuration
@@ -37,7 +36,7 @@ for nCentersId in range(len(nCentersList)):
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.timeConsumed)
-            if res.timeConsumed > maxTime: # Don't run algorithms for more than a second
+            if res.timeConsumed > maxTime: # Don't run algorithms for more than maxTime seconds
                 algoSelection[res.algoId] = False
         nPoints = int(nPoints * 1.05 + 1)
           
