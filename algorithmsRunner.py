@@ -25,7 +25,7 @@ class algorithmsRunner():
                 elif self.distribution == "normal":
                     points[col][pointId] = random.standard_normal(size=EuclidDim)
                 elif self.distribution == "exponential":
-                    points[col][pointId] = random.exponential(size=EuclidDim)
+                    points[col][pointId] = random.standard_exponential(size=EuclidDim)
                 else:
                     assert False, "Error: Unknown distribution"
         if self.shufflePoints: # TODO: This only makes sense when reading data from file

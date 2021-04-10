@@ -9,23 +9,25 @@ def fixedRadiusCKMN01(nColors, nCenters, nPoints, p, graph, radius):
 			if graph[0][point1Id][0][point2Id] < radius:
 				nPointsWithinRadius[point1Id] += 1
 	centerIds = full((nCenters, 2), -1)
+	remaining = full((nPoints[0]), True)
 	nCovered = 0
-	for CenterId in range(nCenters):
+	for centerId in range(nCenters):
 		if nCovered == nPoints[0]:
 			return centerIds, True
 		bestNPoints = -1
 		bestCenterId = -1
 		for candidateId in range(nPoints[0]):
-			if nPointsWithinRadius[candidateId] > bestNPoints:
+			if remaining[candidateId] and nPointsWithinRadius[candidateId] > bestNPoints:
 				bestNPoints = nPointsWithinRadius[candidateId]
 				bestCenterId = candidateId
-		centerIds[CenterId] = [0, bestCenterId]
+		centerIds[centerId] = [0, bestCenterId]
 		for in3RId in range(nPoints[0]):
-			if graph[0][bestCenterId][0][in3RId] < 3 * radius:
+			if remaining[in3RId] and graph[0][bestCenterId][0][in3RId] < 3 * radius:
 				for in1RId in range(nPoints[0]):
-					if graph[0][in3RId][0][in1RId] < radius:
+					if remaining[in1RId] and graph[0][in3RId][0][in1RId] < radius:
 						nPointsWithinRadius[in1RId] -= 1
-						nCovered += 1
+				nCovered += 1
+				remaining[in3RId] = False
 	return centerIds, (nCovered >= p[0])
 
 # Return: 3-approximation by Charikar et al.

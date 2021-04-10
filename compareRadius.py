@@ -11,7 +11,7 @@ except:
 
 ### Only change these ###
 # Recommended: nCenters = 4, nPoints = 20, nOutliersList = [0, 2, 5], nRuns = 20 (ca. 1 minute)
-nCenters = 4 # Number of centers
+nCenters = 3 # Number of centers
 nPoints = 20  # Number of points
 nOutliersList = [0, 2, 5] # Numbers of outliers
 nRuns = 20 # Number of times to run algorithms
@@ -34,7 +34,7 @@ for subplotId in range(nSubplots):
             algoSelection[algoId] = True
 
     for run in range(nRuns):
-        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCenters, [nPoints], [nPoints - nOutliers], False, configuration["coordinateDistribution"])
+        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCenters, [nPoints], [nPoints - nOutliers], configuration["shufflePoints"], configuration["coordinateDistribution"])
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.radius)

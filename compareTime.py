@@ -32,7 +32,7 @@ for nCentersId in range(len(nCentersList)):
     nPoints = nCentersList[nCentersId]
     while nPoints <= maxPoints:
         nPointsList[nCentersId].append(nPoints)
-        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCentersList[nCentersId], [nPoints], [nPoints], False, configuration["coordinateDistribution"])
+        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCentersList[nCentersId], [nPoints], [nPoints], configuration["shufflePoints"], configuration["coordinateDistribution"])
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.timeConsumed)
