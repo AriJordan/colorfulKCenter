@@ -58,12 +58,12 @@ def getInput():
             print("Fix seed? (y/n)")
             if input() == "y": 
                 fixSeed = True
-            distributions = ["uniform", "normal", "exponential"]
-            distribution = input()
+            distributions = ["uniform", "normal", "exponential"]         
             print("What coordinate distribution? Options are:")
             for dist in distributions:
                 print("\"" + dist + "\"", sep = ", ")
             print("(witout quotes)")
+            distribution = input()
             assert distribution == "uniform" or distribution == "normal" or distribution == "exponential"
         else:
             assert default == "y", "default should be y or n"
