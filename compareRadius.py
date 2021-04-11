@@ -13,13 +13,13 @@ except:
 # Recommended: nCenters = 4, nPoints = 20, nOutliersList = [0, 2, 5], nRuns = 20 (ca. 1 minute)
 nCenters = 3 # Number of centers
 nPoints = 20  # Number of points
-nOutliersList = [0, 2, 5] # Numbers of outliers
-nRuns = 20 # Number of times to run algorithms
+nOutliersList = [0, 5] # Numbers of outliers
+nRuns = 10 # Number of times to run algorithms
 #########################
 
 nSubplots = len(nOutliersList)
 fig, axs = plt.subplots(1, nSubplots, figsize=(6 * nSubplots, 5))
-fig.suptitle('Approximation ratio of different algorithms for ' + str(nPoints) + ' points')
+fig.suptitle('Approximation ratio of different algorithms for ' + str(nPoints) + ' points and ' + str(nCenters) + ' centers')
 plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []

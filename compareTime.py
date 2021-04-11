@@ -10,7 +10,7 @@ except:
 
 ### Only change these ###
 # Recommended: nCentersList = [2, 5, 15], maxPoints = 200, maxTime = 0.3 (ca. 1 minute)
-nCentersList = [2, 5, 15] # Different numbers of centers
+nCentersList = [2, 10] # Different numbers of centers
 maxPoints = 200 # Maximum number of points
 maxTime = 0.3 # Maximum time allowed per algorithm run
 #########################

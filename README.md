@@ -19,21 +19,24 @@ git clone https://github.com/AriJordan/colorfulKCenter.git
 ```
 python main.py
 ```
+![plot](.pictures/25Points20CoverageRequired.png)
 ## Comparing algorithms
 - The runtime of algorithms can be compared with the script compareTime.py:
 ```
 python compareTime.py
 ```
+![plot](.pictures/runtimeComparison.png)
 - The approximation ratio of algorithms can be compared with the script compareRadius.py:
 ```
 python compareRadius.py
 ```
+![plot](.pictures/approxRatio25Points4Centers.png)
 ## Adding own algorithms
 You are welcome to add your own algorithms!
 To do so perform the following steps:
 - Create a new file in the folder **algorithms** with the name of your algorithm
 - In the file create a function that accepts the parameters and returns the chosen centers in the same format as the other algorithms.
-I recommend to look at the file **algorithms\\G85.py** to see what parameters are passed to and returned by the algorithms.  
+I recommend to look at the file **algorithms/G85.py** to see what parameters are passed to and returned by the algorithms.  
 The parameters are:  
 `nColors`, the number of different colors of points. You may ignore this parameter and assume there is only one type (color) of point.  
 `nCenters`, the number of centers, which the algorithm is allowed to create.  
@@ -43,7 +46,7 @@ The parameters are:
 The return value must be:  
 `centerIds`, the chosen centers as a numpy array of pairs of ints, where the first int is the color of the center and the second int is the id of the center.  
 
-- To run your algorithm, possibly against other algorithms, you must edit the file **algorithms\\algoInfo.py**. The simplest way is to just remove an other algorithm there and add your own instead, only changing the `name` (name of your algorithm) and `algo` (your function that you need to import on the top of the file). If you instead want to choose a new letter representig your algorithm you must also add the letter in **configuration.py** to the `algoLetters` entry.
+- To run your algorithm, possibly against other algorithms, you must edit the file **algorithms/algoInfo.py**. The simplest way is to just remove an other algorithm there and add your own instead, only changing the `name` (name of your algorithm) and `algo` (your function that you need to import on the top of the file). If you instead want to choose a new letter representig your algorithm you must also add the letter in **configuration.py** to the `algoLetters` entry.
 - If you would like to add your algorithm to this repository, feel free to create a pull request.
 ## Asking questions
 If you have any questions, remarks or whatever just make a new issue, or comment on an existing issue if it is related.  
