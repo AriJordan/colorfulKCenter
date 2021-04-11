@@ -8,6 +8,9 @@ High code quality is a goal, but not guaranteed.
 # Instructions:  
 ## Getting started  
 - Make sure you have python3 with libraries satisfying the requirements in requirements.txt  
+```bash
+pip install -r requirements.txt
+```
 - clone this repository
 ```bash
 git clone https://github.com/AriJordan/colorfulKCenter.git
@@ -40,9 +43,9 @@ The parameters are:
 The return value must be:  
 `centerIds`, the chosen centers as a numpy array of pairs of ints, where the first int is the color of the center and the second int is the id of the center.  
 
-- To run your algorithm, possibly against other algorithms you must edit the file **algorithms\\algoInfo.py**. The simplest is to just remove an other algorithm there and add your own instead, only changing the `name` (name of your algorithm) and `algo` (your function that you need to import on the top of the file). If you instead want to choose a new letter representig your algorithm you must also add the letter in **configuration.py** to the `algoLetters` entry.
+- To run your algorithm, possibly against other algorithms, you must edit the file **algorithms\\algoInfo.py**. The simplest is to just remove an other algorithm there and add your own instead, only changing the `name` (name of your algorithm) and `algo` (your function that you need to import on the top of the file). If you instead want to choose a new letter representig your algorithm you must also add the letter in **configuration.py** to the `algoLetters` entry.
 - If you would like to add your algorithm to this repository, feel free to create a pull request.
 ## Asking questions
-If you have any questions, remarks or whatever just make a new issue, or comment on an existing issue, if it is related.  
+If you have any questions, remarks or whatever just make a new issue, or comment on an existing issue if it is related.  
 
 
