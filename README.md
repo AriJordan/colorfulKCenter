@@ -26,7 +26,7 @@ python compareTime.py
 ```
 - The approximation ratio of algorithms can be compared with the script compareRadius.py:
 ```
-python compareRadius.py:
+python compareRadius.py
 ```
 ## Adding own algorithms
 You are welcome to add your own algorithms!
