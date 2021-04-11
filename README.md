@@ -19,18 +19,18 @@ git clone https://github.com/AriJordan/colorfulKCenter.git
 ```
 python main.py
 ```
-!(pictures/25Points20CoverageRequired.png)
+![](pictures/25Points20CoverageRequired.png)
 ## Comparing algorithms
 - The runtime of algorithms can be compared with the script compareTime.py:
 ```
 python compareTime.py
 ```
-!(pictures/runtimeComparison.png)
+![](pictures/runtimeComparison.png)
 - The approximation ratio of algorithms can be compared with the script compareRadius.py:
 ```
 python compareRadius.py
 ```
-!(pictures/approxRatio25Points4Centers.png)
+![](pictures/approxRatio25Points4Centers.png)
 ## Adding own algorithms
 You are welcome to add your own algorithms!
 To do so perform the following steps:
