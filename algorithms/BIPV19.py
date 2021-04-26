@@ -4,24 +4,29 @@ from algorithms.LPSolver import LPSolver
 
 # Return: fractional solution to LP if it exists
 def solveLP(nColors, nCenters, nPoints, p, graph, radius):
-	A = zeros((nPoints[0] + 2 + 2 * nPoints[0], 2 * nPoints[0]))
-	b = zeros((nPoints[0] + 2 + 2 * nPoints[0]))
-	c = zeros((2 * nPoints[0]))
-	for zId in range(nPoints[0]):
-		A[zId][nPoints[0] + zId] = 1.0
-		for xId in range(nPoints[0]):
-			if graph[0][zId][0][xId] < radius:
-				A[zId][xId] = -1.0
-	A[nPoints[0]][0:nPoints[0]] = 1
-	b[nPoints[0]] = nCenters
-	A[nPoints[0] + 1][nPoints[0]:(2 * nPoints[0])] = -1
-	b[nPoints[0] + 1] = -p[0]
-	for i in range(nPoints[0] + 2, nPoints[0] + 2 + 2 * nPoints[0]):
-		A[i][i - (nPoints[0] + 2)] = 1
+	assert nColors == len(p)
+	# Rows represent: -sum_{v in B(z_u)}(x_v) + z_u <= 0, sum(x_v) <= k, -sum_{v in color}(x_v) <= -p[color], x <= 1, z <= 1
+	A = zeros((sum(nPoints) + 1 + nColors + 2 * sum(nPoints), 2 * sum(nPoints)))
+	b = zeros((sum(nPoints) + 1 + nColors + 2 * sum(nPoints)))
+	c = zeros((2 * sum(nPoints)))
+	for col1 in range(nColors):
+		for zId in range(nPoints[col1]):
+			for col2 in range(nColors):
+				for xId in range(nPoints[col2]):
+					if graph[col1][zId][col2][xId] < radius:
+						A[sum(nPoints[0:col1]) + zId][sum(nPoints[0:col2]) + xId] = -1.0
+			A[sum(nPoints[0:col1]) + zId][sum(nPoints) + sum(nPoints[0:col1]) + zId] = 1.0
+	A[sum(nPoints)][0:sum(nPoints)] = 1
+	b[sum(nPoints)] = nCenters
+	for col in range(nColors):
+		A[(sum(nPoints) + 1) + col][(sum(nPoints) + sum(nPoints[0:col])) : (sum(nPoints) + sum(nPoints[0:col+1]))] = -1
+		b[(sum(nPoints) + 1) + col] = -p[col]
+	for i in range((sum(nPoints) + 1 + nColors), (sum(nPoints) + 1 + nColors) + 2 * sum(nPoints)):
+		A[i][i - (sum(nPoints) + 1 + nColors)] = 1
 		b[i] = 1
-	xz = zeros((2 * nPoints[0]))
+	xz = zeros((2 * sum(nPoints)))
 	fractionalRadius, xz = LPSolver(A, b, c).solve(xz)
-	x, z = xz[0:nPoints[0]], xz[nPoints[0]:(2 * nPoints[0])]
+	x, z = xz[0:sum(nPoints)], xz[sum(nPoints):(2 * sum(nPoints))]
 	if fractionalRadius == inf:
 		return x, z, False
 	else:
