@@ -2,9 +2,8 @@ from numpy import argmax, full, inf, ones, zeros
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.LPSolver import LPSolver
 
-# Return: centers for fixed radius and whether successful
-def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
-	# Solve LP
+# Return: fractional solution to LP if it exists
+def solveLP(nColors, nCenters, nPoints, p, graph, radius):
 	A = zeros((nPoints[0] + 2 + 2 * nPoints[0], 2 * nPoints[0]))
 	b = zeros((nPoints[0] + 2 + 2 * nPoints[0]))
 	c = zeros((2 * nPoints[0]))
@@ -22,10 +21,19 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
 		b[i] = 1
 	xz = zeros((2 * nPoints[0]))
 	fractionalRadius, xz = LPSolver(A, b, c).solve(xz)
-	if fractionalRadius == inf:
-		return full((nCenters, 2), -1), False
 	x, z = xz[0:nPoints[0]], xz[nPoints[0]:(2 * nPoints[0])]
+	if fractionalRadius == inf:
+		return x, z, False
+	else:
+		return x, z, True
 
+
+# Return: centers for fixed radius and whether successful
+def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
+	# Solve LP
+	x, z, success = solveLP(nColors, nCenters, nPoints, p, graph, radius)
+	if not success:
+		return full((nCenters, 2), -1), False	
 	# Build fractional centers
 	remPoints = ones((nPoints[0]))
 	S = zeros((nPoints[0]))
