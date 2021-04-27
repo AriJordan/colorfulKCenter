@@ -1,6 +1,7 @@
 from numpy import argmax, full, inf, ones, zeros
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.LPSolver import LPSolver
+from algorithms.simplifyGraph import simplifyGraph, getColor
 
 # Return: fractional solution to LP if it exists
 def solveLP(nColors, nCenters, nPoints, p, graph, radius):
@@ -32,42 +33,48 @@ def solveLP(nColors, nCenters, nPoints, p, graph, radius):
 	else:
 		return x, z, True
 
-
-# Return: centers for fixed radius and whether successful
-def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
-	# Solve LP
-	x, z, success = solveLP(nColors, nCenters, nPoints, p, graph, radius)
-	if not success:
-		return full((nCenters, 2), -1), False	
-	# Build fractional centers
-	remPoints = ones((nPoints[0]))
-	S = zeros((nPoints[0]))
-	nPointsRem = nPoints[0]
-	D = [[] for _ in range(nPoints[0])]
+def buildFractional(nColors, nPoints, graph, radius, x, z):
+	remPoints = ones((sum(nPoints)))
+	S = zeros((sum(nPoints)))
+	nPointsRem = sum(nPoints)
+	D = [[] for _ in range(sum(nPoints))]
+	simpleGraph = simplifyGraph(nColors, nPoints, graph)
 	while max(z * remPoints) > 0:
 		v_max = argmax(z * remPoints)
 		S[v_max] = 1
-		x[v_max] = min(1.0, sum((graph[0][v_max][0][u] < radius) * x[u] for u in range(nPoints[0])))
+		x[v_max] = min(1.0, sum((simpleGraph[v_max][u] < radius) * x[u] for u in range(sum(nPoints))))
 		if x[v_max] < 1e-6:
 			break
-		for u in range(nPoints[0]):
-			if graph[0][v_max][0][u] < radius and remPoints[u]:		
+		for u in range(sum(nPoints)):
+			if simpleGraph[v_max][u] < radius and remPoints[u]:		
 				nPointsRem -= 1
 				if u != v_max:
 					x[u] = 0		
 		D_v = []
-		for u in range(nPoints[0]):
-			if graph[0][v_max][0][u] < 2 * radius and remPoints[u]:
+		for u in range(sum(nPoints)):
+			if simpleGraph[v_max][u] < 2 * radius and remPoints[u]:
 				z[u] = x[v_max]
 				D_v.append(u)
 		for u in D_v:
 			remPoints[u] = 0
 		D[v_max] = D_v
+	return S, D
+
+
+# Return: centers for fixed radius and whether successful
+def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=False):
+	# Solve LP
+	x, z, success = solveLP(nColors, nCenters, nPoints, p, graph, radius)
+	if not success:
+		return full((nCenters, 2), -1), False
+	
+	# Build fractional centers
+	S, D = buildFractional(nColors, nPoints, graph, radius, x, z)	
 
 	# Make integral
-	for v in range(nPoints[0]):
+	for v in range(sum(nPoints)):
 		if S[v] and 1e-6 <= x[v] and x[v] <= 1 - 1e-6:
-			for w in range(nPoints[0]):
+			for w in range(sum(nPoints)):
 				if w != v and S[w] and 1e-6 <= x[w] and x[w] <= 1 - 1e-6:
 					xsum = x[v] + x[w]
 					if len(D[v]) >= len(D[w]):
@@ -80,14 +87,14 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
 						z[u] = x[v]
 					for y in D[w]:
 						z[y] = x[w]
-	for v in range(nPoints[0]):
+	for v in range(sum(nPoints)):
 		if S[v] and 1e-6 <= x[v]:
 			x[v] = 1.0
 			for u in D[v]:
 				z[v] = x[v]
 		else:
 			x[v] = 0.0
-	for v in range(nPoints[0]):
+	for v in range(sum(nPoints)):
 		if S[v] and x[v] == 0:
 			S[v] = 0
 
@@ -95,14 +102,15 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius):
 	assert sum(x) <= nCenters + 1e-6 and sum(x) >= 1 - 1e-6
 	centerIds = full((nCenters, 2), -1)
 	centerId = 0
-	nPointsCovered = 0
-	for v in range(nPoints[0]):
+	nPointsCovered = zeros(nColors)
+	for v in range(sum(nPoints)):
 		if x[v]:
 			assert x[v] == 0.0 or x[v] == 1.0
-			centerIds[centerId] = [0, v]
+			centerIds[centerId] = [getColor(nPoints, v), v]
 			centerId += 1
-			nPointsCovered += len(D[v])
-	return centerIds, (nPointsCovered >= p[0])
+			for u in D[v]:
+				nPointsCovered[getColor(nPoints, u)] += 1
+	return centerIds, (nPointsCovered >= p)
 
 # Return: 2-approximation by Bandyapadhyay et al.
 def algoBIPV19(nColors, nCenters, nPoints, p, graph):
