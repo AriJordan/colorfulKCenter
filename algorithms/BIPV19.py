@@ -33,7 +33,7 @@ def solveLP(nColors, nCenters, nPoints, p, graph, radius):
 	else:
 		return x, z, True
 
-def buildFractional(nColors, nPoints, graph, radius, x, z):
+def buildFractional(nColors, nPoints, graph, radius, x, z, flowers=False):
 	remPoints = ones((sum(nPoints)))
 	S = zeros((sum(nPoints)))
 	nPointsRem = sum(nPoints)
@@ -51,14 +51,23 @@ def buildFractional(nColors, nPoints, graph, radius, x, z):
 				if u != v_max:
 					x[u] = 0		
 		D_v = []
-		for u in range(sum(nPoints)):
-			if simpleGraph[v_max][u] < 2 * radius and remPoints[u]:
-				z[u] = x[v_max]
-				D_v.append(u)
+		if flowers: # for JSS20 flowers
+			for u in range(sum(nPoints)):
+				if simpleGraph[v_max][u] < radius:
+					for w in range(sum(nPoints)):
+						if simpleGraph[u][w] < radius and remPoints[w]:
+							nPointsRem -= 1
+							if w != w_max:
+								x[w] = 0
+		else: # for radius 2
+			for u in range(sum(nPoints)):
+				if simpleGraph[v_max][u] < 2 * radius and remPoints[u]:
+					z[u] = x[v_max]
+					D_v.append(u)
 		for u in D_v:
 			remPoints[u] = 0
 		D[v_max] = D_v
-	return S, D
+	return x, z, S, D
 
 
 # Return: centers for fixed radius and whether successful
@@ -69,7 +78,7 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=Fals
 		return full((nCenters, 2), -1), False
 	
 	# Build fractional centers
-	S, D = buildFractional(nColors, nPoints, graph, radius, x, z)	
+	x, z, S, D = buildFractional(nColors, nPoints, graph, radius, x, z)	
 
 	# Make integral
 	for v in range(sum(nPoints)):
