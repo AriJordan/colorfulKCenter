@@ -14,6 +14,18 @@ def roundBlue(graph, y, S, D, b_S):
 # Return: whether well-separated and non-separated centers if not
 def testNonSeparated(graph, S):
 
+# Return : q_i and P_i
+def getqP(graph, [c1, c2, c3]):
+
+# Return : P_s (sparse points) and P_d (dense points)
+def getP_sP_d(graph, q, P):
+
+# Return: centers in S_d
+def A_d(graph, P_d, k_d, r_d, b_d):
+
+# Return: centers in S_s
+def A_s(graph, P_s, k_s, r_s, b_s):
+
 # Return: 3-approximation for fixed radius and whether successful
 def fixedRadiusJSS20(nColors, nCenters, nPoints, p, graph, radius, flowers=True):
     # Solve LP
@@ -43,16 +55,18 @@ def fixedRadiusJSS20(nColors, nCenters, nPoints, p, graph, radius, flowers=True)
         for c2 in range(c1 + 1, sum(nPoints)):
             for c3 in range(c2 + 1, sum(nPoints)):
                 # Phase 1
+                q, P = getqP(graph, [c1, c2, c3])
 
                 # Create P_s and P_d (Phase 2)
+                P_s, P_d = getP_sP_d(graph, q, P)
 
                 # Guess number of centers in P_d, number of red and blue points
                 for k_d in range(0, K+1):
                     for r_d in range(0, nPoints[0]+1):
-                        for r_b in range(0, nPoints[1]+1):
-                            A_dCenters, A_dSuccess = A_d()
-                            A_sCenters, A_sSuccess = A_s()
-                            if A_dSuccess and A_sSuccess:
+                        for b_d in range(0, nPoints[1]+1):
+                            A_dCenters, A_dSuccess = A_d(graph, P_d, k_d, r_d, b_d)
+                            A_sCenters, A_sSuccess = A_s(graph, P_s, K - k_d, nPoints[0] - r_d, nPoints[1] - b_d)
+                            if A_dSuccess and A_sSuccess: # TODO: return best if several guesses succeed
                                 return A_dCenters + A_sCenters, True
     return full((nCenters, 2), -1), False
 
