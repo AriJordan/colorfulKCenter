@@ -1,7 +1,7 @@
 from numpy import argmax, full, inf, ones, zeros
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.LPSolver import LPSolver
-from algorithms.simplifyGraph import simplifyGraph, getColor
+from algorithms.simplifyGraph import simplifyGraph, getColor, getPId
 
 # Return: fractional solution to LP if it exists
 def solveLP(nColors, nCenters, nPoints, p, graph, radius):
@@ -115,7 +115,7 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=Fals
 	for v in range(sum(nPoints)):
 		if x[v]:
 			assert x[v] == 0.0 or x[v] == 1.0
-			centerIds[centerId] = [getColor(nPoints, v), v]
+			centerIds[centerId] = [getColor(nPoints, v), getPId(nPoints, v)]
 			centerId += 1
 			for u in D[v]:
 				nPointsCovered[getColor(nPoints, u)] += 1

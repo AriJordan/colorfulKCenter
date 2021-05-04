@@ -10,11 +10,24 @@ def simplifyGraph(nColors, nPoints, graph):
                     simpleGraph[sum(nPoints[0:col1]) + v1][sum(nPoints[0:col2]) + v2] = graph[col1][v1][col2][v2]
     return simpleGraph
 
-# Return: original color of vertex
+# Return: Id in simpleGraph
+def simpleId(nPoints, col, pId):
+    return sum(nPoints[0:col] + pId)
+
+# Return: original color of point
 def getColor(nPoints, v):
     color = 0
     pSum = nPoints[color]
     while(pSum <= v):
         color += 1
-        pSum += nPoints[color]
+        pSum += nPoints[color]           
     return color
+
+# Return: original id of point
+def getPId(nPoints, v):
+    color = 0
+    pId = v
+    while(nPoints[color] <= pId):        
+        pId -= nPoints[color]
+        color += 1
+    return pId
