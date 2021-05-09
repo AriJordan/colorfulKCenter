@@ -4,6 +4,8 @@ from result import result
 from timeit import default_timer as timer
 from algorithms.algoInfo import algoList
 
+from instances import getRandomInstance, randomEuclPointsGraph
+
 
 class algorithmsRunner():
     def __init__(self, algoSelection, nColors, nCenters, nPoints, p, shufflePoints, distribution = "normal"):
@@ -16,26 +18,8 @@ class algorithmsRunner():
         self.distribution = distribution
 
     # Return: random points and corresponding graph
-    def createPointsGraph(self, EuclidDim = 2):
-        points = zeros((self.nColors, amax(self.nPoints), EuclidDim))
-        for col in range(0, self.nColors):
-            for pointId in range(0, self.nPoints[col]):
-                if self.distribution == "uniform":
-                    points[col][pointId] = random.uniform(size=EuclidDim)
-                elif self.distribution == "normal":
-                    points[col][pointId] = random.standard_normal(size=EuclidDim)
-                elif self.distribution == "exponential":
-                    points[col][pointId] = random.standard_exponential(size=EuclidDim)
-                else:
-                    assert False, "Error: Unknown distribution"
-        if self.shufflePoints: # TODO: This only makes sense when reading data from file
-            random.shuffle(points)
-        graph = zeros((self.nColors, amax(self.nPoints), self.nColors, amax(self.nPoints))) # Indices: col1, point1Id, col2, point2Id
-        for col1 in range(0, self.nColors):
-            for point1Id in range(0, self.nPoints[col1]):
-                for col2 in range(0, self.nColors):
-                    for point2Id in range(0, self.nPoints[col2]):
-                        graph[col1][point1Id][col2][point2Id] = linalg.norm(points[col1][point1Id] - points[col2][point2Id])
+    def createPointsGraph(self, EuclidDim=2):
+        points, graph = randomEuclPointsGraph(self.nColors, self.nPoints, self.distribution, EuclidDim)
         return points, graph
 
     def calcMinRadius(self, centerIds, graph):
