@@ -1,5 +1,6 @@
 from numpy import array, amax, zeros, shape
 from numpy import linalg, random
+from randomConfiguration import configuration
 
 class instance():
     '''
@@ -46,8 +47,10 @@ def randomEuclPoints(nColors, nPoints, distribution="normal", EuclidDim=2):
 
     return points
 
-def getRandomInstance():
-    from randomConfiguration import configuration
-    points = randomEuclPoints(configuration["nColors"], configuration["nPoints"], configuration["coordinateDistribution"])
-    return instance(points, configuration["nCenters"], configuration["p"])
-
+def getRandomInstance(nColors = configuration["nColors"],
+                      nPoints = configuration["nPoints"],
+                      distribution = configuration["coordinateDistribution"],
+                      nCenters = configuration["nCenters"],
+                      p = configuration["p"]):
+    points = randomEuclPoints(nColors, nPoints, distribution)
+    return instance(points, nCenters, p)

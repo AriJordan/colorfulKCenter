@@ -2,10 +2,11 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from numpy import column_stack, full, random
 from algorithmsRunner import algorithmsRunner
+from instances import getRandomInstance
 from result import result
 from algorithms.algoInfo import algoList
 try:
-    from configuration import configuration
+    from randomConfiguration import configuration
 except:
     assert False, "Please first run main.py to create configuration.py"
 
@@ -32,7 +33,8 @@ for subplotId in range(nSubplots):
     optResults = []
     allResults = [[] for _ in range(len(algoList))]
     for run in range(nRuns):
-        algoRunner = algorithmsRunner(algoSelection, nColors, nCenters[subplotId], nPoints, p, configuration["shufflePoints"], configuration["coordinateDistribution"])
+        instance = getRandomInstance(nColors=nColors, nPoints = nPoints, distribution="normal", nCenters=nCenters[subplotId], p=p)
+        algoRunner = algorithmsRunner(algoSelection, instance) #nColors, nCenters[subplotId], nPoints, p,
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.radius)
