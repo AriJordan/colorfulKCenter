@@ -1,26 +1,23 @@
 from data.mall.mallConfiguration import mallConfiguration
 
-from instances import instance, getGraph
+from instances import instance
 from numpy import array, shape
 import csv
 
 def getMallInstance(totalPoints):
-    points, graph = getMallPointsGraph(totalPoints)
-    return instance(points, graph, mallConfiguration["nCenters"], mallConfiguration["p"])
+    points = getMallPoints(totalPoints)
+    return instance(points, mallConfiguration["nCenters"], mallConfiguration["p"])
 
 
-def getMallPointsGraph(totalPoints):
+def getMallPoints(totalPoints):
     with open('./data/mall/Mall_Customers.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         data = list(csv_reader)
     cleanData = clean(data)
     points = createPoints(cleanData)
-    graph = getGraph(points, shape(points)[0],array([sum(point.any() for point in colPoints) for colPoints in points]) )
-
-    # TODO: make graph a function of points in instances.py (and only return points here)
 
     # TODO: implement only choosing subset of points
-    return points, graph
+    return points
 
 
 

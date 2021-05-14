@@ -8,15 +8,30 @@ class instance():
     nCenters is the number of centers to be opened
     p is an array where p[colID] is the number of points of colID to be covered
     '''
-    def __init__(self, points, graph, nCenters, p):
+    def __init__(self, points, nCenters, p):
         self.points = points
-        self.graph = graph
         self.nCenters = nCenters
         self.p = p
-        self.nColors = shape(points)[0]
-        self.nPoints = array([sum(point.any() for point in colPoints) for colPoints in points])
 
-def randomEuclPointsGraph(nColors, nPoints, distribution="normal", EuclidDim=2):
+    @property
+    def nPoints(self):
+        return array([sum(point.any() for point in colPoints) for colPoints in self.points])
+
+    @property
+    def nColors(self):
+        return shape(self.points)[0]
+
+    @property
+    def graph(self):
+        graph = zeros((self.nColors, amax(self.nPoints), self.nColors, amax(self.nPoints)))  # Indices: col1, point1Id, col2, point2Id
+        for col1 in range(0, self.nColors):
+                for point1Id in range(0, self.nPoints[col1]):
+                    for col2 in range(0, self.nColors):
+                        for point2Id in range(0, self.nPoints[col2]):
+                            graph[col1][point1Id][col2][point2Id] = linalg.norm(self.points[col1][point1Id] - self.points[col2][point2Id])
+        return graph
+
+def randomEuclPoints(nColors, nPoints, distribution="normal", EuclidDim=2):
     points = zeros((nColors, amax(nPoints), EuclidDim))
     for col in range(0, nColors):
         for pointId in range(0, nPoints[col]):
@@ -29,25 +44,10 @@ def randomEuclPointsGraph(nColors, nPoints, distribution="normal", EuclidDim=2):
             else:
                 assert False, "Error: Unknown distribution"
 
-    graph = zeros((nColors, amax(nPoints), nColors, amax(nPoints)))  # Indices: col1, point1Id, col2, point2Id
-    for col1 in range(0, nColors):
-        for point1Id in range(0, nPoints[col1]):
-            for col2 in range(0, nColors):
-                for point2Id in range(0, nPoints[col2]):
-                    graph[col1][point1Id][col2][point2Id] = linalg.norm(points[col1][point1Id] - points[col2][point2Id])
-    return points, graph
+    return points
 
 def getRandomInstance():
     from randomConfiguration import configuration
-    points, graph = randomEuclPointsGraph(configuration["nColors"], configuration["nPoints"], configuration["coordinateDistribution"])
-    return instance(points, graph, configuration["nCenters"], configuration["p"])
+    points = randomEuclPoints(configuration["nColors"], configuration["nPoints"], configuration["coordinateDistribution"])
+    return instance(points, configuration["nCenters"], configuration["p"])
 
-
-def getGraph(points, nColors, nPoints):
-    graph = zeros((nColors, amax(nPoints), nColors, amax(nPoints)))  # Indices: col1, point1Id, col2, point2Id
-    for col1 in range(0, nColors):
-        for point1Id in range(0, nPoints[col1]):
-            for col2 in range(0, nColors):
-                for point2Id in range(0, nPoints[col2]):
-                    graph[col1][point1Id][col2][point2Id] = linalg.norm(points[col1][point1Id] - points[col2][point2Id])
-    return graph
