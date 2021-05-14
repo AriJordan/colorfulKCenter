@@ -2,6 +2,12 @@ from numpy import array, amax, zeros, shape
 from numpy import linalg, random
 
 class instance():
+    '''
+    points is a 3 dim array where points[colID][pointID] are the coordinates
+    graph is a 4 dim array where graph[colID1][p1ID][colID2][p2ID] is the distance between p1 and p2
+    nCenters is the number of centers to be opened
+    p is an array where p[colID] is the number of points of colID to be covered
+    '''
     def __init__(self, points, graph, nCenters, p):
         self.points = points
         self.graph = graph
