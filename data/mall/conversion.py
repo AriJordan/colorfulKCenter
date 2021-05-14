@@ -1,15 +1,15 @@
 from data.mall.mallConfiguration import mallConfiguration
 from instances import instance
 
-def getMallInstance():
-    points, graph = getMallPointsGraph()
+def getMallInstance(totalPoints):
+    points, graph = getMallPointsGraph(totalPoints)
     return instance(points, graph, mallConfiguration["nCenters"], mallConfiguration["p"])
 
 
-def getMallPointsGraph():
+def getMallPointsGraph(totalPoints):
     points = 0
     graph = 0
 
-    # take only a subset of points via configuration["nPoints"] ?
+    # take a totalPoints subset of all points
     return points, graph
 
