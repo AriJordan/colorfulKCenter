@@ -8,9 +8,13 @@ from data.mall.conversion import getMallInstance
 # Summary: Read parameters from "configuration.py"
 #          If it fails, user is asked to create new parameters
 # Remark: This is unconventional and probably a bad way to do it
+
+# if configuration.py does not exist, instance.py throws an error
+# TODO: figure out which functionality we actually want
+
 def getInput(instanceType):
     if instanceType=="random":
-        try:
+        try:  #
             from configuration import configuration
             print("Parameters taken from configuration.py")
             print("You can change or delete configuration.py and rerun program")
@@ -20,7 +24,7 @@ def getInput(instanceType):
                     algoSelection[algoId] = True
             if configuration["fixSeed"]:
                 random.seed(42)
-            return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["shufflePoints"], configuration["coordinateDistribution"]
+            return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["coordinateDistribution"]
         except:
             confFile = open("configuration.py", "w")
             algoLetters = ""
@@ -54,9 +58,6 @@ def getInput(instanceType):
                 print("#points to be covered? (1 - #points)")
                 p[0] = int(input())
                 assert p[0] <= nPoints
-                print("Shuffle points? (y/n)")
-                if input() == "y":
-                    shufflePoints = True
                 print("Fix seed? (y/n)")
                 if input() == "y":
                     fixSeed = True
@@ -84,7 +85,6 @@ def getInput(instanceType):
             for col in range(1, len(nPoints)):
                 confFile.write(", " + str(p[col]))
             confFile.write("]),\n")
-            confFile.write("    \"shufflePoints\" : " + str(shufflePoints) + ",\n")
             confFile.write("    \"fixSeed\" : " + str(fixSeed) + ",\n")
             confFile.write("    \"coordinateDistribution\" : \"" + distribution + "\",\n")
 
@@ -104,4 +104,4 @@ def getInput(instanceType):
         if mallConfiguration["fixSeed"]:
             random.seed(42)
         instance = getMallInstance(mallConfiguration["totalPoints"])
-        return algoSelection, instance.nColors, instance.nCenters, mallConfiguration["nPoints"], instance.p, mallConfiguration["shufflePoints"]
+        return algoSelection, instance.nColors, instance.nCenters, mallConfiguration["nPoints"], instance.p

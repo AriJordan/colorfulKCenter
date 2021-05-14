@@ -5,7 +5,6 @@ configuration = {
     "nCenters" : 4,
     "nPoints" : array([20]),
     "p" : array([15]),
-    "shufflePoints" : True,
     "fixSeed" : False,
     "coordinateDistribution" : "uniform",
 }

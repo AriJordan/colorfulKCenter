@@ -8,13 +8,12 @@ from instances import getRandomInstance, randomEuclPointsGraph
 
 
 class algorithmsRunner():
-    def __init__(self, algoSelection, nColors, nCenters, nPoints, p, shufflePoints, distribution = "normal"):
+    def __init__(self, algoSelection, nColors, nCenters, nPoints, p, distribution = "normal"):
         self.algoSelection = algoSelection
         self.nColors = nColors
         self.nCenters = nCenters
         self.nPoints = nPoints
         self.p = p
-        self.shufflePoints = shufflePoints
         self.distribution = distribution
 
     # Return: random points and corresponding graph
