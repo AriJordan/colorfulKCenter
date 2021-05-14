@@ -105,4 +105,4 @@ def getInput(instanceType):
         if mallConfiguration["fixSeed"]:
             random.seed(42)
         instance = getMallInstance(mallConfiguration["totalPoints"])
-        return algoSelection, instance.nColors, instance.nCenters, mallConfiguration["nPoints"], instance.p
+        return algoSelection, instance

@@ -42,3 +42,12 @@ def getRandomInstance():
     points, graph = randomEuclPointsGraph(configuration["nColors"], configuration["nPoints"], configuration["coordinateDistribution"])
     return instance(points, graph, configuration["nCenters"], configuration["p"])
 
+
+def getGraph(points, nColors, nPoints):
+    graph = zeros((nColors, amax(nPoints), nColors, amax(nPoints)))  # Indices: col1, point1Id, col2, point2Id
+    for col1 in range(0, nColors):
+        for point1Id in range(0, nPoints[col1]):
+            for col2 in range(0, nColors):
+                for point2Id in range(0, nPoints[col2]):
+                    graph[col1][point1Id][col2][point2Id] = linalg.norm(points[col1][point1Id] - points[col2][point2Id])
+    return graph

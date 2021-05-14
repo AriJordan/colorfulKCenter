@@ -17,7 +17,7 @@ class algorithmsRunner():
 
     def calcMinRadius(self, centerIds):
         maxDist = 0
-        minDists = full((len(graph), amax(self.nPoints)), inf)
+        minDists = full((len(self.graph), amax(self.nPoints)), inf)
         for col in range(0, self.nColors):           
             for pointId in range(0, self.nPoints[col]):
                 for centerCol, centerId in centerIds:

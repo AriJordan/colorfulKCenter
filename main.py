@@ -3,6 +3,6 @@ from algorithmsRunner import algorithmsRunner
 from output import printOutput
 
 
-algoRunner = algorithmsRunner(*getInput("random"))
+algoRunner = algorithmsRunner(*getInput("mall"))
 printOutput(algoRunner.runAlgorithmsOnce())
 

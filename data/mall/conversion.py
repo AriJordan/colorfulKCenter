@@ -1,5 +1,8 @@
 from data.mall.mallConfiguration import mallConfiguration
-from instances import instance
+
+from instances import instance, getGraph
+from numpy import array, shape
+import csv
 
 def getMallInstance(totalPoints):
     points, graph = getMallPointsGraph(totalPoints)
@@ -7,9 +10,39 @@ def getMallInstance(totalPoints):
 
 
 def getMallPointsGraph(totalPoints):
-    points = 0
-    graph = 0
+    with open('./data/mall/Mall_Customers.csv', mode='r') as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        data = list(csv_reader)
+    cleanData = clean(data)
+    points = createPoints(cleanData)
+    graph = getGraph(points, shape(points)[0],array([sum(point.any() for point in colPoints) for colPoints in points]) )
 
-    # take a totalPoints subset of all points
+    # TODO: make graph a function of points in instances.py (and only return points here)
+
+    # TODO: implement only choosing subset of points
     return points, graph
 
+
+
+
+def clean(data):
+    def cleanup(customer):
+        cleanup={}
+        cleanup['Gender']=customer['Gender']
+        cleanup['Age']=int(customer['Age'])
+        cleanup['Income']=int(customer['Annual Income (k$)'])
+        cleanup['Spending Score']=int(customer['Spending Score (1-100)'])
+        return cleanup
+
+    cleanData = [cleanup(customer) for customer in data]
+
+    return cleanData
+
+def createPoints(cleanData):
+    points = [[],[]]
+    for customer in cleanData:
+        if customer['Gender']=='Male':
+            points[0].append( array([customer['Age'], customer['Income']] )  )
+        else:
+            points[1].append( array([customer['Age'], customer['Income']] )  )
+    return array([array(colPoints) for colPoints in points])

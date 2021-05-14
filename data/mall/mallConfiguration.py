@@ -1,9 +1,8 @@
 from numpy import array
 mallConfiguration = {
-    "algoLetters" : "rghcbo",
-    "nCenters" : 4,
+    "algoLetters" : "ro",  #ghcbo",
+    "nCenters" : 2,
     "totalPoints" : 200,
     "p" : array([25,25]),
-    "shufflePoints" : True,
     "fixSeed" : False,
 }
