@@ -39,7 +39,7 @@ def buildFractional(nColors, nPoints, graph, radius, x, z, flowers=False):
 	nPointsRem = sum(nPoints)
 	D = [[] for _ in range(sum(nPoints))]
 	simpleGraph = simplifyGraph(nColors, nPoints, graph)
-	while max(z * remPoints) > 0:
+	while len(z) > 0 and max(z * remPoints) > 0:
 		v_max = argmax(z * remPoints)
 		S[v_max] = 1
 		x[v_max] = min(1.0, sum((simpleGraph[v_max][u] < radius) * x[u] for u in range(sum(nPoints))))

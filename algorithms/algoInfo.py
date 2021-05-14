@@ -4,9 +4,9 @@ from algorithms.HS86 import algoHS86
 from algorithms.CKMN01 import algoCKMN01
 from algorithms.BIPV19 import algoBIPV19
 from algorithms.bruteForce import algoBruteForce
+from algorithms.JSS20 import algoJSS20
 
 # Class to represent different algorithms
-
 class algoInfo: 
     algoIdCnt = 0
     def __init__(self, name, algo, letter, color):
@@ -25,5 +25,6 @@ algoList = [
     algoInfo("HS86", algoHS86, "h", "y"),
     algoInfo("CKMN01", algoCKMN01, "c", "c"),
     algoInfo("BIPV19", algoBIPV19, "b", "b"),
+    algoInfo("JSS20", algoJSS20, "j", "r"),
     algoInfo("Optimal", algoBruteForce, "o", "k")
 ]

@@ -12,7 +12,7 @@ def simplifyGraph(nColors, nPoints, graph):
 
 # Return: Id in simpleGraph
 def simpleId(nPoints, col, pId):
-    return sum(nPoints[0:col] + pId)
+    return sum(nPoints[0:col]) + pId
 
 # Return: original color of point
 def getColor(nPoints, v):
@@ -31,3 +31,10 @@ def getPId(nPoints, v):
         pId -= nPoints[color]
         color += 1
     return pId
+
+# Return: old ids and colors of points
+def getOlds(nPoints, vs):
+    old = []
+    for v in vs:
+        old.append([getColor(nPoints, v), getPId(nPoints, v)])
+    return old

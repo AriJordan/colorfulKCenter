@@ -98,4 +98,4 @@ class LPSolver():
         for i in range(self.m):
             if self.B[i] < self.n:
                 x[self.B[i]] = self.D[i][self.n + 1]
-        return (self.D[self.m][self.n + 1], x) if ok else (-inf, x)
+        return (-self.D[self.m][self.n + 1], x) if ok else (-inf, x)
