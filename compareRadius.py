@@ -5,9 +5,9 @@ from algorithmsRunner import algorithmsRunner
 from result import result
 from algorithms.algoInfo import algoList
 try:
-    from configuration import configuration
+    from randomConfiguration import configuration
 except:
-    assert False, "Please first run main.py to create configuration.py"
+    assert False, "Please first run main.py to create randomConfiguration.py"
 
 ### Only change these ###
 # Recommended: nCenters = 4, nPoints = 20, nOutliersList = [0, 2, 5], nRuns = 20 (ca. 1 minute)

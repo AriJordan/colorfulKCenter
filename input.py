@@ -5,19 +5,17 @@ from numpy import array, full
 from algorithms.algoInfo import algoList
 from data.mall.conversion import getMallInstance
 
-# Summary: Read parameters from "configuration.py"
+# Summary: Read parameters from "randomConfiguration.py"
 #          If it fails, user is asked to create new parameters
 # Remark: This is unconventional and probably a bad way to do it
 
-# if configuration.py does not exist, instance.py throws an error
-# TODO: figure out which functionality we actually want
 
 def getInput(instanceType):
     if instanceType=="random":
         try:  #
-            from configuration import configuration
-            print("Parameters taken from configuration.py")
-            print("You can change or delete configuration.py and rerun program")
+            from randomConfiguration import configuration
+            print("Parameters taken from randomConfiguration.py")
+            print("You can change or delete randomConfiguration.py and rerun program")
             algoSelection = full((len(algoList)), False)
             for algoId in range(len(algoList)):
                 if configuration["algoLetters"].count(algoList[algoId].letter):
@@ -26,7 +24,7 @@ def getInput(instanceType):
                 random.seed(42)
             return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["coordinateDistribution"]
         except:
-            confFile = open("configuration.py", "w")
+            confFile = open("randomConfiguration.py", "w")
             algoLetters = ""
             for algoInfo in algoList:
                 algoLetters = algoLetters + algoInfo.letter
@@ -71,7 +69,7 @@ def getInput(instanceType):
             else:
                 assert default == "y", "default should be y or n"
 
-            # Wrîte file configuration.py
+            # Wrîte file randomConfiguration.py
             confFile.write("from numpy import array\n")
             confFile.write("configuration = {\n")
             confFile.write("    \"algoLetters\" : \"" + algoLetters + "\",\n")
@@ -90,7 +88,7 @@ def getInput(instanceType):
 
             confFile.write("}\n")
             confFile.close()
-            print("Parameters written to configuration.py")
+            print("Parameters written to randomConfiguration.py")
 
             # Restart
             execl(sys.executable, '"{}"'.format(sys.executable), *sys.argv)

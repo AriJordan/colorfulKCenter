@@ -1,6 +1,5 @@
 from numpy import array, append, amax, full, resize, sort, inf, zeros, shape
 from numpy import linalg, random
-from configuration import configuration
 
 class instance():
     def __init__(self, points, graph, nCenters, p):
@@ -9,8 +8,6 @@ class instance():
         self.nCenters = nCenters
         self.p = p
         # self.nColors = shape(points)[0]
-
-
 
 def randomEuclPointsGraph(nColors, nPoints, distribution="normal", EuclidDim=2):
     points = zeros((nColors, amax(nPoints), EuclidDim))
@@ -34,6 +31,7 @@ def randomEuclPointsGraph(nColors, nPoints, distribution="normal", EuclidDim=2):
     return points, graph
 
 def getRandomInstance():
+    from randomConfiguration import configuration
     points, graph = randomEuclPointsGraph(configuration["nColors"], configuration["nPoints"], configuration["coordinateDistribution"])
     return instance(points, graph, configuration["nCenters"], configuration["p"])
 
