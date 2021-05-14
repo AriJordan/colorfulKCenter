@@ -4,6 +4,7 @@ import sys
 from numpy import array, full
 from algorithms.algoInfo import algoList
 from data.mall.conversion import getMallInstance
+from instances import getRandomInstance
 
 # Summary: Read parameters from "randomConfiguration.py"
 #          If it fails, user is asked to create new parameters
@@ -22,7 +23,9 @@ def getInput(instanceType):
                     algoSelection[algoId] = True
             if configuration["fixSeed"]:
                 random.seed(42)
-            return algoSelection, configuration["nColors"], configuration["nCenters"], configuration["nPoints"], configuration["p"], configuration["coordinateDistribution"]
+
+            instance = getRandomInstance()
+            return algoSelection, instance
         except:
             confFile = open("randomConfiguration.py", "w")
             algoLetters = ""

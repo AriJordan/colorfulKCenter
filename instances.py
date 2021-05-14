@@ -1,4 +1,4 @@
-from numpy import array, append, amax, full, resize, sort, inf, zeros, shape
+from numpy import array, amax, zeros, shape
 from numpy import linalg, random
 
 class instance():
@@ -7,7 +7,8 @@ class instance():
         self.graph = graph
         self.nCenters = nCenters
         self.p = p
-        # self.nColors = shape(points)[0]
+        self.nColors = shape(points)[0]
+        self.nPoints = array([sum(point.any() for point in colPoints) for colPoints in points])
 
 def randomEuclPointsGraph(nColors, nPoints, distribution="normal", EuclidDim=2):
     points = zeros((nColors, amax(nPoints), EuclidDim))
