@@ -72,7 +72,7 @@ def getInput(instanceType):
             else:
                 assert default == "y", "default should be y or n"
 
-            # Wrîte file randomConfiguration.py
+            # Write file randomConfiguration.py
             confFile.write("from numpy import array\n")
             confFile.write("configuration = {\n")
             confFile.write("    \"algoLetters\" : \"" + algoLetters + "\",\n")

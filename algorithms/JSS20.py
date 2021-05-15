@@ -1,4 +1,4 @@
-from numpy import array, ones, zeros, full, copy
+from numpy import amax, array, ones, zeros, full, copy
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.LPSolver import LPSolver
 from algorithms.BIPV19 import solveLP, buildFractional
@@ -54,8 +54,16 @@ def solveLPh(nPoints, S, r_D, b_D, red, blue, k):
     return yInd
 
 # Return: y rounded up for fractional D_v with most blue points
-def roundBlue(graph, y, S, D, b_S):
+def roundBlue(nCenters, graph, y, S, D, b_S):
     assert len(S) == len(y)
+    if sum([1 for y_v in y if y_v > 1e-6 ]) <= nCenters: # Can round all up
+        for v in range(len(y)):
+            if y[v] > 1e-6:
+                y[v] = 1
+            else:
+                y[v] = 0
+        return y
+
     maxB = -1
     maxv = -1
     for v in range(len(y)):
@@ -90,12 +98,14 @@ def testSeparated(simpleGraph, y, radius):
 # count Gain(p, q) := R ∩ (F(q) \ B(p))
 def getGain(nPoints, graph, pCol, pId, qCol, qId, P, radius):
     gain = 0
+    counted = zeros((nPoints[0]))
     for vCol in range(len(nPoints)):
         for vId in range(nPoints[vCol]):
             if graph[qCol][qId][vCol][vId] <= radius:
                 for wId in range(nPoints[0]):
-                    if graph[vCol][vId][0][wId] <= radius and graph[pCol][pId][0][wId] and P[simpleId(nPoints, vCol, vId)]:
+                    if not counted[wId] and graph[vCol][vId][0][wId] <= radius and graph[pCol][pId][0][wId] > radius and P[simpleId(nPoints, vCol, vId)]:
                         gain += 1
+                        counted[wId] = 1
     return gain
 
 # Return: q_i, P_i,
@@ -122,7 +132,8 @@ def getqP(nPoints, graph, guessedCenters, radius):
         q.append(bestq)
 
         # Build P_(i+1)
-        P_ip1 = P[i]
+        P_ip1 = copy(P[i])
+        qCol, qId = bestq
         for vCol in range(len(nPoints)):
             for vId in range(nPoints[vCol]):
                 if graph[qCol][qId][vCol][vId] <= radius:
@@ -229,7 +240,7 @@ def getBluePseudo(graph, nColors, nCenters, nPoints, p, radius, simpleGraph):
     y = solveLPh(nPoints, S, r_D, b_D, p[0], p[1], nCenters)
     
     # Round up blue
-    y = roundBlue(graph, y, S, D, b_D)
+    y = roundBlue(nCenters, graph, y, S, D, b_D)
 
     return y, True
 
@@ -239,6 +250,7 @@ def buildP_sSubgraph(P_s, nPoints, graph):
     oldPos = zeros((len(P_s), 2), dtype=int)
     rCnt = 0
     bCnt = 0
+    newId = 0
     for pos in range(len(P_s)):
         if P_s[pos]:
             if getColor(nPoints, pos) == 0:
@@ -247,7 +259,8 @@ def buildP_sSubgraph(P_s, nPoints, graph):
             else:
                 newPos[pos] = [1, bCnt]
                 bCnt += 1
-            oldPos[pos] = [getColor(nPoints, pos), getPId(nPoints, pos)]
+            oldPos[newId] = [getColor(nPoints, pos), getPId(nPoints, pos)]
+            newId += 1
     P_sGraph = zeros((2, max(rCnt, bCnt), 2, max(rCnt, bCnt)))
     for pos1 in range(len(P_s)):
         if P_s[pos1]:
