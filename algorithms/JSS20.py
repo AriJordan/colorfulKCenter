@@ -146,7 +146,7 @@ def getqP(nPoints, graph, guessedCenters, radius):
 
 # Return : P_s (sparse points) and P_d (dense points)
 def getP_sP_dI(nPoints, graph, simpleGraph, q, P_4, tau, radius):
-    P_s = P_4
+    P_s = copy(P_4)
     P_d = zeros(len(P_s))
     I = []
     D = []
@@ -190,7 +190,7 @@ def A_d(nPoints, graph, P_d, I, k_d, r_d, b_d, D, radius):
         for r in range(r_d + 1):
             for b in range(b_d + 1):
                 for k in range(k_d + 1):
-                    if T[m-1][r][b][k]:
+                    if m > 0 and T[m-1][r][b][k]:
                         T[m][r][b][k] = True
                         choices[m][r][b][k] = [m-1, r, b, k]
                     for I_Id in range(len(I)):
@@ -205,7 +205,7 @@ def A_d(nPoints, graph, P_d, I, k_d, r_d, b_d, D, radius):
                                     bpp -= 1
                             rpp = max(0, rpp)
                             bpp = max(0, bpp)
-                            if T[m-1][rpp][bpp][k-1]:
+                            if m > 0 and k > 0 and T[m-1][rpp][bpp][k-1]:
                                 T[m][r][b][k] = True
                                 choices[m][r][b][k] = [m-1, rpp, bpp, k-1]
                                 lastC[m][r][b][k] = c
@@ -296,6 +296,7 @@ def fixedRadiusJSS20(nColors, nCenters, nPoints, p, graph, radius, flowers=True)
     if not success:
         return full((nCenters, 2), -1), False
 
+    # TODO: if less centers just return nonSeparated
     nonSepCenters, isSeparated = testSeparated(simpleGraph, y, radius)
     if not isSeparated:
         return nonSepCenters, True
