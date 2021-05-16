@@ -4,6 +4,7 @@ import sys
 from numpy import array, full
 from algorithms.algoInfo import algoList
 from data.mall.conversion import getMallInstance
+from data.bank.conversion import getBankInstance
 from instances import getRandomInstance
 
 # Summary: Read parameters from "randomConfiguration.py"
@@ -102,7 +103,16 @@ def getInput(instanceType):
         for algoId in range(len(algoList)):
             if mallConfiguration["algoLetters"].count(algoList[algoId].letter):
                 algoSelection[algoId] = True
-        if mallConfiguration["fixSeed"]:
-            random.seed(42)
-        instance = getMallInstance(mallConfiguration["totalPoints"])
+        instance = getMallInstance()
+        return algoSelection, instance
+
+    elif instanceType=="bank":
+        from data.bank.bankConfiguration import bankConfiguration
+        print("Parameters taken form bankConfiguration.py")
+        algoSelection = full((len(algoList)), False)
+        for algoId in range(len(algoList)):
+            if bankConfiguration["algoLetters"].count(algoList[algoId].letter):
+                algoSelection[algoId] = True
+
+        instance = getBankInstance()
         return algoSelection, instance

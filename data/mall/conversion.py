@@ -4,19 +4,21 @@ from instances import instance
 from numpy import array, shape
 import csv
 
-def getMallInstance(totalPoints):
-    points = getMallPoints(totalPoints)
-    subset = getSubset(points, totalPoints)
+def getMallInstance():
+    points = getMallPoints()
+    subset = getSubset(points, mallConfiguration["totalPoints"])
     return instance(subset, mallConfiguration["nCenters"], mallConfiguration["p"])
 
 
 def getSubset(points, totalPoints):
+    if mallConfiguration["fixSeed"]:
+        random.seed(42)
     allPoints = sum(len(colPoints) for colPoints in points)
     percentages = [len(colPoints)/allPoints for colPoints in points]
     subPoints = [array( random.sample(list(colPoints), round(totalPoints*percentage))) for colPoints, percentage in zip(points,percentages)]
     return subPoints
 
-def getMallPoints(totalPoints):
+def getMallPoints():
     with open('./data/mall/Mall_Customers.csv', mode='r') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         data = list(csv_reader)
