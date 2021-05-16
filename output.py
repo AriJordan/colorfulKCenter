@@ -13,7 +13,7 @@ def printOutput(results):
             y = result.points[centerCol][centerId][1]
             circle = ax.add_patch(plt.Circle((x, y), result.radius, color=algoList[result.algoId].color, fill=False))
         legendCircles.append(circle)
-        legendNames.append(algoList[result.algoId].name + ": " + str(round(result.radius, 3)))
+        legendNames.append(algoList[result.algoId].name + ": " + str(round(result.radius, 2)))
         for pointCol in range(len(result.points)):
             for pointId in range(len(result.points[pointCol])):
                 x = result.points[pointCol][pointId][0]
