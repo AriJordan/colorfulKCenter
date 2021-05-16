@@ -1,8 +1,9 @@
 from numpy import amax, array, ones, zeros, full, copy
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.LPSolver import LPSolver
-from algorithms.BIPV19 import solveLP, buildFractional
+from algorithms.BIPV19 import solveLPc, buildFractional
 from algorithms.simplifyGraph import simplifyGraph, simpleId, getColor, getPId, getOlds
+from algorithms.bruteForce import algoBruteForce
 
 # Return: Number of red and blue vertices in D_v for v in S
 def getRB(nPoints, D):
@@ -110,7 +111,6 @@ def getGain(nPoints, graph, pCol, pId, qCol, qId, P, radius):
 
 # Return: q_i, P_i,
 #         τ: the minimal value such that |Gain(p,q) ∩ P_4| ≤ τ
-# TODO: Buggy
 def getqP(nPoints, graph, guessedCenters, radius):
     q = []
     P = [[1 for n in range(sum(nPoints))]]
@@ -223,8 +223,8 @@ def A_d(nPoints, graph, P_d, I, k_d, r_d, b_d, D, radius):
     else:
         return [], False
 
-def getBluePseudo(graph, nColors, nCenters, nPoints, p, radius, simpleGraph):
-    x, z, success = solveLP(nColors, nCenters, nPoints, p, graph, radius)
+def getBluePseudo(graph, nColors, nCenters, nPoints, p, radius):
+    x, z, success = solveLPc(nColors, nCenters, nPoints, p, graph, radius)
     if not success:
         return [], False
     
@@ -273,7 +273,7 @@ def buildP_sSubgraph(P_s, nPoints, graph):
 # Return: centers in P_s
 def A_s(nPoints, graph, P_s, k_s, r_s, b_s, radius):
     P_sGraph, P_sNPoints, oldPos = buildP_sSubgraph(P_s, nPoints, graph)
-    y, success = getBluePseudo(P_sGraph, 2, k_s, P_sNPoints, [r_s, b_s], radius, simplifyGraph(2, P_sNPoints, P_sGraph)) 
+    y, success = getBluePseudo(P_sGraph, 2, k_s, P_sNPoints, [r_s, b_s], radius) 
     if not success:
         return [], False
     else:
@@ -292,7 +292,7 @@ def fixedRadiusJSS20(nColors, nCenters, nPoints, p, graph, radius, flowers=True)
     simpleGraph = simplifyGraph(nColors, nPoints, graph)
 
     # Solve LP
-    y, success = getBluePseudo(graph, nColors, nCenters, nPoints, p, radius, simpleGraph)
+    y, success = getBluePseudo(graph, nColors, nCenters, nPoints, p, radius)
     if not success:
         return full((nCenters, 2), -1), False
 
@@ -332,5 +332,8 @@ def fixedRadiusJSS20(nColors, nCenters, nPoints, p, graph, radius, flowers=True)
 # Return: 3-approximation for colorful k-center by Jia et al.
 def algoJSS20(nColors, nCenters, nPoints, p, graph):
     assert nColors == len(p)
-    return binarySearchRadius(fixedRadiusJSS20, nColors, nCenters, nPoints, p, graph)
+    if nCenters < 3: # Because JSS20 guesses 3 centers
+        return algoBruteForce(nColors, nCenters, nPoints, p, graph)
+    else:
+        return binarySearchRadius(fixedRadiusJSS20, nColors, nCenters, nPoints, p, graph)
 

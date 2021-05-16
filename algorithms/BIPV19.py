@@ -4,7 +4,7 @@ from algorithms.LPSolver import LPSolver
 from algorithms.simplifyGraph import simplifyGraph, getColor, getPId
 
 # Return: fractional solution to LP if it exists
-def solveLP(nColors, nCenters, nPoints, p, graph, radius):
+def solveLPc(nColors, nCenters, nPoints, p, graph, radius):
 	assert nColors == len(p)
 	# Rows represent: -sum_{v in B(z_u)}(x_v) + z_u <= 0, sum(x_v) <= k, -sum_{v in color}(x_v) <= -p[color], x <= 1, z <= 1
 	A = zeros((sum(nPoints) + 1 + nColors + 2 * sum(nPoints), 2 * sum(nPoints)))
@@ -73,7 +73,7 @@ def buildFractional(nColors, nPoints, graph, radius, x, z, flowers=False):
 # Return: centers for fixed radius and whether successful
 def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=False):
 	# Solve LP
-	x, z, success = solveLP(nColors, nCenters, nPoints, p, graph, radius)
+	x, z, success = solveLPc(nColors, nCenters, nPoints, p, graph, radius)
 	if not success:
 		return full((nCenters, 2), -1), False
 	

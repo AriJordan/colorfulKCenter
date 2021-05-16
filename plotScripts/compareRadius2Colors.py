@@ -1,3 +1,6 @@
+if __name__ == "__main__":
+    import allowScriptMain
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from numpy import column_stack, full, random
@@ -11,17 +14,20 @@ except:
     assert False, "Please first run main.py to create configuration.py"
 
 ### Only change these ###
+algoLetters = "jlor" # 2 color algorithms
 random.seed(0)
 nColors = 2 
-nCenters = [4, 5] # Number of centers
-nPoints = [5, 5]  # Number of points
-p = [3, 4] # Number of points to cover
+nCenters = [3, 3] # Number of centers
+nPoints = [6, 6]  # Number of points
+p = [4, 5] # Number of points to cover
+distribution = "uniform"
 nRuns = 10 # Number of times to run algorithms
+#########################
+
 algoSelection = full((len(algoList)), False)
 for algoId in range(len(algoList)):
-    if algoList[algoId].name == "JSS20" or algoList[algoId].name == "Optimal": # JSS20 and optimal algorithms
+    if algoLetters.count(algoList[algoId].letter):
         algoSelection[algoId] = True
-#########################
 
 nSubplots = len(nCenters)
 fig, axs = plt.subplots(1, nSubplots, figsize=(6 * nSubplots, 5))
@@ -33,7 +39,7 @@ for subplotId in range(nSubplots):
     optResults = []
     allResults = [[] for _ in range(len(algoList))]
     for run in range(nRuns):
-        instance = getRandomInstance(nColors=nColors, nPoints = nPoints, distribution="normal", nCenters=nCenters[subplotId], p=p)
+        instance = getRandomInstance(nColors=nColors, nPoints=nPoints, distribution=distribution, nCenters=nCenters[subplotId], p=p)
         algoRunner = algorithmsRunner(algoSelection, instance) #nColors, nCenters[subplotId], nPoints, p,
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
@@ -43,14 +49,14 @@ for subplotId in range(nSubplots):
         for res in results:
             allResults[res.algoId][run] = allResults[res.algoId][run] / optResults[run]
 
-    bp = axs[subplotId].boxplot(allResults)
-    axs[subplotId].set_xticklabels([algoList[i].name for i in range(len(algoList))])
+    bp = axs[subplotId].boxplot([allResults[i] for i in range(len(algoSelection)) if algoSelection[i]])
+    axs[subplotId].set_xticklabels([algoList[i].name for i in range(len(algoSelection)) if algoSelection[i]])
     axs[subplotId].set_title("#centers = " + str(nCenters[subplotId]))
     axs[subplotId].set(ylabel='Approximation ratio')
 
     # Add colors
-    for algoId in range(len(algoList)):
-        box = bp['boxes'][algoId]
+    for boxId, algoId in enumerate([a for a in range(len(algoSelection)) if algoSelection[a]]):
+        box = bp['boxes'][boxId]
         box_x = []
         box_y = []
         box_x.extend(box.get_xdata())

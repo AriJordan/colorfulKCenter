@@ -5,6 +5,7 @@ from algorithms.CKMN01 import algoCKMN01
 from algorithms.BIPV19 import algoBIPV19
 from algorithms.bruteForce import algoBruteForce
 from algorithms.JSS20 import algoJSS20
+from algorithms.LPhHeuristic import algoLPhHeuristic
 
 # Class to represent different algorithms
 class algoInfo: 
@@ -19,12 +20,15 @@ class algoInfo:
 
 # List of different algorithms
 # The letter representing the algorithm and the color must be unique
-algoList = [
-    algoInfo("Random", algoRandomCenters, "r", "m"),
+algoList = [ 
+    # Guaranteed approximations
     algoInfo("G85", algoG85, "g", "g"),
     algoInfo("HS86", algoHS86, "h", "y"),
     algoInfo("CKMN01", algoCKMN01, "c", "c"),
     algoInfo("BIPV19", algoBIPV19, "b", "b"),
     algoInfo("JSS20", algoJSS20, "j", "r"),
-    algoInfo("Optimal", algoBruteForce, "o", "k")
+    algoInfo("Optimal", algoBruteForce, "o", "k"),
+    # Heuristics
+    algoInfo("Random", algoRandomCenters, "r", "m"),
+    algoInfo("helperLP", algoLPhHeuristic, "l", "#F79245")
 ]
