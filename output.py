@@ -4,8 +4,6 @@ from algorithms.algoInfo import algoList
 
 def printOutput(results):
     pointColors = ["r", "b"]
-    for result in results:
-        print(result.radius)       
     fig, ax = plt.subplots()
     legendCircles = []
     legendNames = []
