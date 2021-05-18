@@ -14,10 +14,10 @@ except:
     assert False, "Please first run main.py to create configuration.py"
 
 ### Only change these ###
-algoLetters = "jlor" # 2 color algorithms
+algoLetters = "ijlor" # 2 color algorithms
 random.seed(0)
 nColors = 2 
-nCenters = [3, 3] # Number of centers
+nCenters = [3, 4] # Number of centers
 nPoints = [6, 6]  # Number of points
 p = [4, 5] # Number of points to cover
 distribution = "uniform"

@@ -6,6 +6,7 @@ from algorithms.BIPV19 import algoBIPV19
 from algorithms.bruteForce import algoBruteForce
 from algorithms.JSS20 import algoJSS20
 from algorithms.LPhHeuristic import algoLPhHeuristic
+from algorithms.hillClimbing import algoHillClimbing
 
 # Class to represent different algorithms
 class algoInfo: 
@@ -30,5 +31,6 @@ algoList = [
     algoInfo("Optimal", algoBruteForce, "o", "k"),
     # Heuristics
     algoInfo("Random", algoRandomCenters, "r", "m"),
-    algoInfo("helperLP", algoLPhHeuristic, "l", "#F79245")
+    algoInfo("helperLP", algoLPhHeuristic, "l", "#F79245"),
+    algoInfo("hillClimbing", algoHillClimbing, "i", "#00FD80")
 ]
