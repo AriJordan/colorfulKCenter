@@ -25,7 +25,8 @@ class algorithmsRunner():
                     minDists[col][pointId] = min(minDists[col][pointId], self.graph[col][pointId][centerCol][centerId])
             minDists[col].sort()
             # TODO: potentially problematic if p[col]==0
-            maxDist = max(maxDist, minDists[col][self.p[col] - 1])
+            if self.p[col] > 0:
+                maxDist = max(maxDist, minDists[col][self.p[col] - 1])
         return maxDist
 
     def addResult(self, algoId, results, centerIds, timeConsumed):
