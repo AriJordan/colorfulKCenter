@@ -19,12 +19,10 @@ class algorithmsRunner():
         maxDist = 0
         minDists = full((len(self.graph), amax(self.nPoints)), inf)
         for col in range(0, self.nColors):
-            # TODO: potentially problematic if nPoints[col]==0
             for pointId in range(0, self.nPoints[col]):
                 for centerCol, centerId in centerIds:
                     minDists[col][pointId] = min(minDists[col][pointId], self.graph[col][pointId][centerCol][centerId])
             minDists[col].sort()
-            # TODO: potentially problematic if p[col]==0
             if self.p[col] > 0:
                 maxDist = max(maxDist, minDists[col][self.p[col] - 1])
         return maxDist
