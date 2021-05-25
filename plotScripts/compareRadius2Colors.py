@@ -14,14 +14,14 @@ except:
     assert False, "Please first run main.py to create configuration.py"
 
 ### Only change these ###
-algoLetters = "ijlor" # 2 color algorithms
+algoLetters = "ghcbori"
 random.seed(0)
 nColors = 2 
-nCenters = [3, 4] # Number of centers
-nPoints = [6, 6]  # Number of points
-p = [4, 5] # Number of points to cover
+nCenters = [2, 4] # Number of centers
+nPoints = [20, 20]  # Number of points
+p = [5, 18] # Number of points to cover
 distribution = "uniform"
-nRuns = 10 # Number of times to run algorithms
+nRuns = 30 # Number of times to run algorithms
 #########################
 
 algoSelection = full((len(algoList)), False)
@@ -31,7 +31,7 @@ for algoId in range(len(algoList)):
 
 nSubplots = len(nCenters)
 fig, axs = plt.subplots(1, nSubplots, figsize=(6 * nSubplots, 5))
-fig.suptitle('Approximation ratio of different algorithms for nPoints: ' + str(nPoints) + ' and p: ' + str(p))
+fig.suptitle('Approximation ratio for 2 colors, '+ str(nPoints) + ' points and p: ' + str(p))
 plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []
@@ -40,7 +40,7 @@ for subplotId in range(nSubplots):
     allResults = [[] for _ in range(len(algoList))]
     for run in range(nRuns):
         instance = getRandomInstance(nColors=nColors, nPoints=nPoints, distribution=distribution, nCenters=nCenters[subplotId], p=p)
-        algoRunner = algorithmsRunner(algoSelection, instance) #nColors, nCenters[subplotId], nPoints, p,
+        algoRunner = algorithmsRunner(algoSelection, instance)
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.radius)

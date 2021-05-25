@@ -1,7 +1,11 @@
+if __name__ == "__main__":
+    import allowScriptMain
+
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-from numpy import column_stack, full
+from numpy import column_stack, full, random
 from algorithmsRunner import algorithmsRunner
+from instances import getRandomInstance
 from result import result
 from algorithms.algoInfo import algoList
 try:
@@ -11,15 +15,24 @@ except:
 
 ### Only change these ###
 # Recommended: nCenters = 4, nPoints = 20, nOutliersList = [0, 2, 5], nRuns = 20 (ca. 1 minute)
+algoLetters = "ghcbori"
+random.seed(0)
+nColors = 1
 nCenters = 3 # Number of centers
 nPoints = 20  # Number of points
 nOutliersList = [0, 5] # Numbers of outliers
-nRuns = 10 # Number of times to run algorithms
+distribution = "uniform"
+nRuns = 20 # Number of times to run algorithms
 #########################
+
+algoSelection = full((len(algoList)), False)
+for algoId in range(len(algoList)):
+    if algoLetters.count(algoList[algoId].letter):
+        algoSelection[algoId] = True
 
 nSubplots = len(nOutliersList)
 fig, axs = plt.subplots(1, nSubplots, figsize=(6 * nSubplots, 5))
-fig.suptitle('Approximation ratio of different algorithms for ' + str(nPoints) + ' points and ' + str(nCenters) + ' centers')
+fig.suptitle('Approximation ratio for 1 Color, ' + str(nPoints) + ' points and ' + str(nCenters) + ' centers')
 plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []
@@ -28,13 +41,9 @@ for subplotId in range(nSubplots):
     optResults = []
     allResults = [[] for _ in range(len(algoList))]
 
-    algoSelection = full((len(algoList)), False)
-    for algoId in range(len(algoList)):
-        if configuration["algoLetters"].count(algoList[algoId].letter):
-            algoSelection[algoId] = True
-
     for run in range(nRuns):
-        algoRunner = algorithmsRunner(algoSelection, configuration["nColors"], nCenters, [nPoints], [nPoints - nOutliers], configuration["shufflePoints"], configuration["coordinateDistribution"])
+        instance = getRandomInstance(nColors=nColors, nPoints=[nPoints], distribution=distribution, nCenters=nCenters, p=[nPoints - nOutliers])
+        algoRunner = algorithmsRunner(algoSelection, instance)
         results = algoRunner.runAlgorithmsOnce()
         for res in results:
             allResults[res.algoId].append(res.radius)
@@ -43,14 +52,14 @@ for subplotId in range(nSubplots):
         for res in results:
             allResults[res.algoId][run] = allResults[res.algoId][run] / optResults[run]
 
-    bp = axs[subplotId].boxplot(allResults)
-    axs[subplotId].set_xticklabels([algoList[i].name for i in range(len(algoList))])
-    axs[subplotId].set_title("#outliers = " + str(nOutliers))
+    bp = axs[subplotId].boxplot([allResults[i] for i in range(len(algoSelection)) if algoSelection[i]])
+    axs[subplotId].set_xticklabels([algoList[i].name for i in range(len(algoSelection)) if algoSelection[i]])
+    axs[subplotId].set_title("#outliers = " + str(nOutliersList[subplotId]))
     axs[subplotId].set(ylabel='Approximation ratio')
 
     # Add colors
-    for algoId in range(len(algoList)):
-        box = bp['boxes'][algoId]
+    for boxId, algoId in enumerate([a for a in range(len(algoSelection)) if algoSelection[a]]):
+        box = bp['boxes'][boxId]
         box_x = []
         box_y = []
         box_x.extend(box.get_xdata())
