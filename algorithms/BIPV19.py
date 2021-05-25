@@ -72,7 +72,7 @@ def buildFractional(nColors, nPoints, graph, radius, x, z, flowers=False):
 
 # Return: centers for fixed radius and whether successful
 def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=False):
-	assert nColors == 1 and len(nPoints) == 1 and len(p) == 1 and len(graph) == 1 
+	assert len(nPoints) == nColors and len(p) == nColors and len(graph) == nColors
 	# Solve LP
 	x, z, success = solveLPc(nColors, nCenters, nPoints, p, graph, radius)
 	if not success:
