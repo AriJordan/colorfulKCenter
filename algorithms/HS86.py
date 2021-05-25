@@ -1,15 +1,16 @@
 from numpy import zeros, ones, full, sort
 from algorithms.binarySearchRadius import binarySearchRadius
+from algorithms.simplifyGraph import ignoreColors, getColor, getPId, getOlds
 
 # Return: centers for fixed radius and whether covered all points successully
 def fixedRadiusHS86(nColors, nCenters, nPoints, p, graph, radius):
-	pointsLeft = ones((nPoints[0]))
+	pointsLeft = ones(sum(nPoints))
 	centerIds = full((nCenters, 2), -1)
 	for centerId in range(nCenters):
-		for candidateId in range(nPoints[0]):
+		for candidateId in range(sum(nPoints)):
 			if pointsLeft[candidateId]:
 				centerIds[centerId] = [0, candidateId]
-				for removeId in range(nPoints[0]):
+				for removeId in range(sum(nPoints)):
 					if graph[0][candidateId][0][removeId] < 2 * radius:
 						pointsLeft[removeId] = False
 				break
@@ -21,9 +22,15 @@ def fixedRadiusHS86(nColors, nCenters, nPoints, p, graph, radius):
 
 # Return: 2-approximation by Hochbaum and Shmoys
 def algoHS86(nColors, nCenters, nPoints, p, graph):
-	assert nColors == 1 # 1 color algorithm
-	assert len(p) == 1 and len(graph) == 1
-	assert len(graph[0]) == nPoints[0]
-	return binarySearchRadius(fixedRadiusHS86, nColors, nCenters, nPoints, p, graph)
+	assert nColors == len(graph)
+	if nColors > 1:
+		graph = ignoreColors(nColors, nPoints, graph)
+	assert len(graph[0]) == sum(nPoints)
+
+	centerIds = binarySearchRadius(fixedRadiusHS86, 1, nCenters, [sum(nPoints)], [sum(p)], graph)
+
+	if nColors > 1:
+		centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds))])
+	return centerIds
 	
 

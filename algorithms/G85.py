@@ -1,5 +1,5 @@
 from numpy import array, full, zeros, inf
-from algorithms.simplifyGraph import ignoreColors, getColor, getPId
+from algorithms.simplifyGraph import ignoreColors, getColor, getPId, getOlds
 
 # Return: 2-approximation by Gonzales
 def algoG85(nColors, nCenters, nPoints, p, graph):
@@ -24,7 +24,6 @@ def algoG85(nColors, nCenters, nPoints, p, graph):
             minDists[otherId] = min(minDists[otherId], graph[0][bestCenterId][0][otherId])
 
     if nColors > 1:
-        for cPos in range(len(centerIds)):
-            cCol, cId = centerIds[cPos]
-            centerIds[cPos] = [getColor(nPoints, cId), getPId(nPoints, cId)]
+        centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds))])
+        
     return centerIds
