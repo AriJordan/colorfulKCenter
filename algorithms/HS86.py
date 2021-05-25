@@ -4,6 +4,7 @@ from algorithms.simplifyGraph import ignoreColors, getColor, getPId, getOlds
 
 # Return: centers for fixed radius and whether covered all points successully
 def fixedRadiusHS86(nColors, nCenters, nPoints, p, graph, radius):
+	assert nColors == 1 and len(nPoints) == 1 and len(p) == 1 and len(graph) == 1 
 	pointsLeft = ones(sum(nPoints))
 	centerIds = full((nCenters, 2), -1)
 	for centerId in range(nCenters):
