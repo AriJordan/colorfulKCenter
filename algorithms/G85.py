@@ -1,16 +1,12 @@
 from numpy import array, full, zeros, inf
-from algorithms.simplifyGraph import simplifyGraph, getColor, getPId
+from algorithms.simplifyGraph import ignoreColors, getColor, getPId
 
 # Return: 2-approximation by Gonzales
 def algoG85(nColors, nCenters, nPoints, p, graph):
     assert nColors == len(graph)
     assert len(graph[0]) == nPoints[0]
-    if nColors > 1: 
-        simpleGraph = simplifyGraph(nColors, nPoints, graph)
-        graph = zeros((1, len(simpleGraph), 1, len(simpleGraph)))
-        for v1 in range(len(simpleGraph)):
-            for v2 in range(len(simpleGraph)):
-                graph[0][v1][0][v2] = simpleGraph[v1][v2]
+    if nColors > 1:
+        graph = ignoreColors(nColors, nPoints, graph)
    
     minDists = full(sum(nPoints), inf)
     centerIds = full((nCenters, 2), -1)

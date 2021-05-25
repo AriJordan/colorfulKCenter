@@ -38,3 +38,11 @@ def getOlds(nPoints, vs):
     for v in vs:
         old.append([getColor(nPoints, v), getPId(nPoints, v)])
     return old
+
+def ignoreColors(nColors, nPoints, graph):
+    simpleGraph = simplifyGraph(nColors, nPoints, graph)
+    graph = zeros((1, len(simpleGraph), 1, len(simpleGraph)))
+    for v1 in range(len(simpleGraph)):
+        for v2 in range(len(simpleGraph)):
+            graph[0][v1][0][v2] = simpleGraph[v1][v2]
+    return graph
