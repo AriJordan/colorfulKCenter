@@ -1,7 +1,7 @@
 from numpy import argmax, full, inf, ones, zeros
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.LPSolver import LPSolver
-from algorithms.simplifyGraph import simplifyGraph, getColor, getPId
+from algorithms.simplifyGraph import simplifyGraph, ignoreColors, getColor, getPId, getOlds
 
 # Return: fractional solution to LP if it exists
 def solveLPc(nColors, nCenters, nPoints, p, graph, radius):
@@ -72,6 +72,7 @@ def buildFractional(nColors, nPoints, graph, radius, x, z, flowers=False):
 
 # Return: centers for fixed radius and whether successful
 def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=False):
+	assert nColors == 1 and len(nPoints) == 1 and len(p) == 1 and len(graph) == 1 
 	# Solve LP
 	x, z, success = solveLPc(nColors, nCenters, nPoints, p, graph, radius)
 	if not success:
@@ -122,8 +123,14 @@ def fixedRadiusBIPV19(nColors, nCenters, nPoints, p, graph, radius, flowers=Fals
 	return centerIds, (nPointsCovered >= p)
 
 # Return: 2-approximation by Bandyapadhyay et al.
+# Remark: Guarantee only holds for 1 color
 def algoBIPV19(nColors, nCenters, nPoints, p, graph):
-	assert nColors == 1 # 1 color algorithm
-	assert len(p) == 1 and len(graph) == 1
-	assert len(graph[0]) == nPoints[0]
-	return binarySearchRadius(fixedRadiusBIPV19, nColors, nCenters, nPoints, p, graph)
+	if nColors > 1:
+		graph = ignoreColors(nColors, nPoints, graph)
+	assert len(graph[0]) == sum(nPoints)
+
+	centerIds = binarySearchRadius(fixedRadiusBIPV19, 1, nCenters, [sum(nPoints)], [sum(p)], graph)
+
+	if nColors > 1:
+		centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds))])
+	return centerIds

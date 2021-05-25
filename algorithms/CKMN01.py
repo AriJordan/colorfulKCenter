@@ -33,6 +33,7 @@ def fixedRadiusCKMN01(nColors, nCenters, nPoints, p, graph, radius):
 	return centerIds, (nCovered >= sum(p))
 
 # Return: 3-approximation by Charikar et al.
+# Remark: Guarantee only holds for 1 color
 def algoCKMN01(nColors, nCenters, nPoints, p, graph):
 	if nColors > 1:
 		graph = ignoreColors(nColors, nPoints, graph)

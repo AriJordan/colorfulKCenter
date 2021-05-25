@@ -22,6 +22,7 @@ def fixedRadiusHS86(nColors, nCenters, nPoints, p, graph, radius):
 	return centerIds, success
 
 # Return: 2-approximation by Hochbaum and Shmoys
+# Remark: Guarantee only holds for 1 color and no outliers
 def algoHS86(nColors, nCenters, nPoints, p, graph):
 	assert nColors == len(graph)
 	if nColors > 1:

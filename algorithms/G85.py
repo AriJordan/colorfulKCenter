@@ -2,6 +2,7 @@ from numpy import array, full, zeros, inf
 from algorithms.simplifyGraph import ignoreColors, getColor, getPId, getOlds
 
 # Return: 2-approximation by Gonzales
+# Remark: Guarantee only holds for 1 color and no outliers
 def algoG85(nColors, nCenters, nPoints, p, graph):
     assert nColors == len(graph)
     assert len(graph[0]) == nPoints[0]
