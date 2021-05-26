@@ -32,12 +32,12 @@ def getBankPoints(colorType):
     #     data = list(csv_reader)
 
     # change nrows to read more of the dataset
-    df = pd.read_csv('./data/bank/bank-full.csv',sep=';', header = None, skiprows= 1, nrows=500)
+    df = pd.read_csv('./data/bank/bank-full.csv',sep=';', header = None, skiprows= 1, nrows=5000)
     pdDict = df.rename({0: "age", 1: "job", 3: "education", 5: "balance", 6: "housing", 7: "loan", 14: 'previous'}, axis = 'columns').T.to_dict()
     data = [person for index, person in pdDict.items()]
     cleanData = clean(data)
-    rescale('age', cleanData, scaling=3)
-    rescale('balance', cleanData, scaling=20)
+    rescaleLinear('age', cleanData, scaling=3)
+    rescaleLog('balance', cleanData, scaling=1)
 
     points = createPoints(cleanData, colorType)
 
@@ -68,18 +68,28 @@ def clean(data):
     return [cleanEntry(person) for person in completeCustomers]
 
 
-def rescale(attribute, entries, scaling=1):
+def rescaleLinear(attribute, entries, scaling=1):
     minVal = min([entry[attribute] for entry in entries])
     maxVal = max([entry[attribute] for entry in entries])
     for entry in entries:
         entry[attribute] = (entry[attribute]-minVal)/(maxVal-minVal)*scaling
     return entries
 
+def rescaleLog(attribute, entries, scaling=1):
+    minVal = min([entry[attribute] for entry in entries])
+    maxVal = max([entry[attribute] for entry in entries])
+    for entry in entries:
+        entry[attribute] = math.log(entry[attribute]-minVal+1, 1.5)
+    return entries
+
 
 def createPoints(cleanCustomers, colorType):
 
     def point(entry):
-        return array([entry['age'], entry['balance'], entry['personalLoan'], entry['housingLoan']])
+        return array([entry['age'],
+                      entry['balance'],
+                      entry['personalLoan'],
+                      entry['housingLoan']])
 
     jobs = ["admin.","unemployed","management","housemaid","entrepreneur","student","blue-collar","self-employed","retired","technician","services"]
     education = ["secondary","primary","tertiary"]
