@@ -5,6 +5,7 @@ import csv
 from instances import  instance
 from data.bank.bankConfiguration import bankConfiguration
 import math
+import pandas as pd
 
 
 def getBankInstance():
@@ -23,13 +24,18 @@ def getSubset(points, totalPoints, percentage):
     return subPoints, p
 
 def getBankPoints(colorType):
-    with open('./data/bank/bank-full.csv', mode='r') as csv_file:
-        # 45211 entries of phone calls
-        csv_reader = csv.DictReader(csv_file, delimiter=';')
-        data = list(csv_reader)
 
+    # with csv
+    # with open('./data/bank/bank-full.csv', mode='r') as csv_file:
+    #     # 45211 entries of phone calls
+    #     csv_reader = csv.DictReader(csv_file, delimiter=';')
+    #     data = list(csv_reader)
+
+    # change nrows to read more of the dataset
+    df = pd.read_csv('./data/bank/bank-full.csv',sep=';', header = None, skiprows= 1, nrows=500)
+    pdDict = df.rename({0: "age", 1: "job", 3: "education", 5: "balance", 6: "housing", 7: "loan", 14: 'previous'}, axis = 'columns').T.to_dict()
+    data = [person for index, person in pdDict.items()]
     cleanData = clean(data)
-
     rescale('age', cleanData, scaling=3)
     rescale('balance', cleanData, scaling=20)
 
@@ -55,12 +61,10 @@ def clean(data):
 
     # remove customers who have been called multiple times
     # 36954 unique customers
-    uniqueCustomers = [person for person in data if person['previous']=='0']
-
+    uniqueCustomers = [person for person in data if person['previous'] == 0]
     # remove customers with incomplete data
     # 35281 customers with complete information
-    completeCustomers = [person for person in uniqueCustomers if person['job']!='unknown' if person['education']!='unknown']
-
+    completeCustomers = [person for person in uniqueCustomers if person['job'] != 'unknown' if person['education'] != 'unknown']
     return [cleanEntry(person) for person in completeCustomers]
 
 
