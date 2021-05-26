@@ -79,7 +79,7 @@ def rescaleLog(attribute, entries, scaling=1):
     minVal = min([entry[attribute] for entry in entries])
     maxVal = max([entry[attribute] for entry in entries])
     for entry in entries:
-        entry[attribute] = math.log(entry[attribute]-minVal+1, 1.5)
+        entry[attribute] = 3 if entry[attribute] < 0 else math.log(entry[attribute]+1000, 8)
     return entries
 
 
