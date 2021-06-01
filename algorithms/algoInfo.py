@@ -7,6 +7,7 @@ from algorithms.bruteForce import algoBruteForce
 from algorithms.JSS20 import algoJSS20
 from algorithms.LPhHeuristic import algoLPhHeuristic
 from algorithms.hillClimbing import algoHillClimbing
+from algorithms.hillClimbingKDTree import algoHillClimbingKDTree
 
 # Class to represent different algorithms
 class algoInfo: 
@@ -32,5 +33,6 @@ algoList = [
     # Heuristics
     algoInfo("Random", algoRandomCenters, "r", "m"),
     algoInfo("helperLP", algoLPhHeuristic, "l", "#F79245"),
-    algoInfo("hillClimbing", algoHillClimbing, "i", "#00FD80")
+    algoInfo("hillClimbing", algoHillClimbing, "i", "#00FD80"),
+    algoInfo("hillClimbKDTree", algoHillClimbingKDTree, "k", "#00FAFF")
 ]

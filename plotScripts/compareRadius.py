@@ -22,7 +22,7 @@ nCenters = 3 # Number of centers
 nPoints = 20  # Number of points
 nOutliersList = [0, 5] # Numbers of outliers
 distribution = "uniform"
-nRuns = 20 # Number of times to run algorithms
+nRuns = 5 # Number of times to run algorithms
 #########################
 
 algoSelection = full((len(algoList)), False)
