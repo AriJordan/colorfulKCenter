@@ -1,5 +1,5 @@
 from algorithms.randomCenters import algoRandomCenters
-from scipy.spatial import KDTree
+from scipy.spatial import cKDTree
 from numpy import array, amin, amax, sort, zeros
 
 def calcDists(nColors, nCenters, nPoints, graph, curCenters):
@@ -13,7 +13,7 @@ def calcDists(nColors, nCenters, nPoints, graph, curCenters):
 
 def updateDists(curCenters, cPos, newCCol, newCId, points):
     curCenters[cPos] = [newCCol, newCId]
-    return KDTree([points[cCol][cPos] for cCol, cPos in curCenters])
+    return cKDTree([points[cCol][cPos] for cCol, cPos in curCenters])
 
 def calcRadius(nColors, nPoints, p, points, kdTree):
     radius = 0
@@ -27,7 +27,7 @@ def algoHillClimbingKDTree(nColors, nCenters, nPoints, p, graph, points):
     curCenters = algoRandomCenters(nColors, nCenters, nPoints, p, graph)
     assert amin(curCenters) > -1, "There should be k centers"
     
-    kdTree = KDTree([points[cCol][cPos] for cCol, cPos in curCenters])
+    kdTree = cKDTree([points[cCol][cPos] for cCol, cPos in curCenters])
     curRadius = calcRadius(nColors, nPoints, p, points, kdTree)
 
     improved = True
