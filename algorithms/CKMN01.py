@@ -42,6 +42,6 @@ def algoCKMN01(nColors, nCenters, nPoints, p, graph):
 	centerIds = binarySearchRadius(fixedRadiusCKMN01, 1, nCenters, [sum(nPoints)], [sum(p)], graph)
 
 	if nColors > 1:
-		centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds))])
+		centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds)) if centerIds[i][1] != -1])
 	return centerIds
 	

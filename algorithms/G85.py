@@ -24,6 +24,6 @@ def algoG85(nColors, nCenters, nPoints, p, graph):
             minDists[otherId] = min(minDists[otherId], graph[0][bestCenterId][0][otherId])
 
     if nColors > 1:
-        centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds))])
+        centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds)) if centerIds[i][1] != -1])
         
     return centerIds
