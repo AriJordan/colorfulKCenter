@@ -3,6 +3,7 @@ if __name__ == "__main__":
 
 import matplotlib.pyplot as plt
 from numpy import array, full
+from datetime import datetime
 from algorithmsRunner import algorithmsRunner
 from instances import getRandomInstance
 from result import result
@@ -48,5 +49,7 @@ for plotId in range(len(nPointsList)):
     axs[plotId].set_title("#points = " + str(nPointsList[plotId]))  
     axs[plotId].set(xlabel='#centers', ylabel='time consumed')
     axs[plotId].legend(legendLines, legendNames)
+
+plt.savefig(datetime.now().strftime("plots\\timeCenters_%d-%m-%Y_%H;%M;%S"))
 plt.show()
 

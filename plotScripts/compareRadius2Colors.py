@@ -4,6 +4,7 @@ if __name__ == "__main__":
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from numpy import column_stack, full, random
+from datetime import datetime
 from algorithmsRunner import algorithmsRunner
 from instances import getRandomInstance
 from result import result
@@ -59,5 +60,7 @@ for subplotId in range(nSubplots):
         box_y.extend(box.get_ydata())
         box_coords = column_stack([box_x, box_y])
         axs[subplotId].add_patch(Polygon(box_coords, facecolor=algoList[algoId].color))
+
+plt.savefig(datetime.now().strftime("plots\\radius_%d-%m-%Y_%H;%M;%S"))
 plt.show()
 

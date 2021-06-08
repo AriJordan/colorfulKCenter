@@ -4,6 +4,7 @@ if __name__ == "__main__":
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from numpy import column_stack, full, random
+from datetime import datetime
 from algorithmsRunner import algorithmsRunner
 from input import getInput
 from result import result
@@ -26,7 +27,7 @@ for algoId in range(len(algoList)):
 
 nSubplots = 2
 fig, axs = plt.subplots(1, nSubplots, figsize=(6 * nSubplots, 5))
-fig.suptitle('Approximation ratio for bank data with, '+ str(bankConfiguration["totalPoints"]) + ' points and coverage percentage: ' + str(100 * bankConfiguration["percentage"]))
+fig.suptitle('Approximation ratio for bank data with ' + str(bankConfiguration["totalPoints"]) + ' points and coverage percentage: ' + str(100 * bankConfiguration["percentage"]))
 plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []
@@ -58,5 +59,6 @@ for subplotId in range(nSubplots):
         box_y.extend(box.get_ydata())
         box_coords = column_stack([box_x, box_y])
         axs[subplotId].add_patch(Polygon(box_coords, facecolor=algoList[algoId].color))
-plt.show()
 
+plt.savefig(datetime.now().strftime("plots\\bank_%d-%m-%Y_%H;%M;%S"))
+plt.show()
