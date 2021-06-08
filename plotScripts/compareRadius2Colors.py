@@ -8,15 +8,11 @@ from algorithmsRunner import algorithmsRunner
 from instances import getRandomInstance
 from result import result
 from algorithms.algoInfo import algoList
-try:
-    from randomConfiguration import configuration
-except:
-    assert False, "Please first run main.py to create configuration.py"
 
 ### Only change these ###
 algoLetters = "ghcbori"
 random.seed(0)
-nColors = 2 
+nColors = 2
 nCenters = [2, 4] # Number of centers
 nPoints = [20, 20]  # Number of points
 p = [5, 18] # Number of points to cover

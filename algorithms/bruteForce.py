@@ -17,15 +17,17 @@ def recursiveBruteForce(nColors, nCenters, nPoints, p, graph, nCentersChosen, ne
         # Update distances and radius
         currentRadius = 0
         for col2 in range(nColors):
-            for pointId in range(nPoints[col2]):
-                newClosestCenterDist[col2][pointId] = min(newClosestCenterDist[col2][pointId], graph[col1][oldId][col2][pointId])
-            sortedClosestCenterDist = sort(newClosestCenterDist[col2])
-            currentRadius = max(currentRadius, sortedClosestCenterDist[p[col2]-1])
+            if nPoints[col2] > 0 and p[col2] > 0:
+                for pointId in range(nPoints[col2]):
+                    newClosestCenterDist[col2][pointId] = min(newClosestCenterDist[col2][pointId], graph[col1][oldId][col2][pointId])
+                sortedClosestCenterDist = sort(newClosestCenterDist[col2])
+                currentRadius = max(currentRadius, sortedClosestCenterDist[p[col2]-1])
 
         if nCentersChosen + 1 < nCenters: # Recurse
             radius, centers = recursiveBruteForce(nColors, nCenters, nPoints, p, graph, nCentersChosen + 1, candidateId + 1, currentCenterIds, newClosestCenterDist)
         else:
             radius, centers = currentRadius, currentCenterIds
+
         if radius < bestRadius:
             bestRadius, bestCenters = radius, copy(centers)
 
@@ -34,7 +36,7 @@ def recursiveBruteForce(nColors, nCenters, nPoints, p, graph, nCentersChosen, ne
 
 # Return: Optimal set of centers
 def algoBruteForce(nColors, nCenters, nPoints, p, graph):
-    assert nColors <= 2, "Only implemented for at most 2 colors"
     assert nCenters > 0
     bestRadius, bestCenters = recursiveBruteForce(nColors, nCenters, nPoints, p, graph, 0, 0, full((nCenters, 2), -1), full((nColors, amax(nPoints)), inf))
+    assert len(bestCenters) <= nCenters
     return bestCenters

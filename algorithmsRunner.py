@@ -7,10 +7,17 @@ from algorithms.algoInfo import algoList
 class algorithmsRunner():
     def __init__(self, algoSelection, instance):
         self.algoSelection = algoSelection
+        assert len(self.algoSelection) > 0, "No algorithms selected"
         self.nColors = instance.nColors
+        assert self.nColors > 0, "There must be at least one color"
         self.nCenters = instance.nCenters
+        assert self.nCenters > 0, "With 0 centers there is no solution at all"
         self.nPoints = instance.nPoints
+        assert amax(self.nPoints) > 0, "There must be at least one point"
         self.p = instance.p
+        assert amax(self.p) > 0, "There is nothing to be covered, all radii would be 0"
+        for col in range(self.nColors):
+            assert self.p[col] <= self.nPoints[col], "Can not cover more points than exist, no solution"
         self.points = instance.points
         self.graph = instance.graph
 
@@ -19,12 +26,13 @@ class algorithmsRunner():
         maxDist = 0
         minDists = full((len(self.graph), amax(self.nPoints)), inf)
         for col in range(0, self.nColors):
-            for pointId in range(0, self.nPoints[col]):
-                for centerCol, centerId in centerIds:
-                    minDists[col][pointId] = min(minDists[col][pointId], self.graph[col][pointId][centerCol][centerId])
-            minDists[col].sort()
-            if self.p[col] > 0:
-                maxDist = max(maxDist, minDists[col][self.p[col] - 1])
+            if self.nPoints[col] > 0:
+                for pointId in range(0, self.nPoints[col]):
+                    for centerCol, centerId in centerIds:
+                        minDists[col][pointId] = min(minDists[col][pointId], self.graph[col][pointId][centerCol][centerId])
+                minDists[col].sort()
+                if self.p[col] > 0:
+                    maxDist = max(maxDist, minDists[col][self.p[col] - 1])
         return maxDist
 
     def addResult(self, algoId, results, centerIds, timeConsumed):

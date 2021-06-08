@@ -7,10 +7,6 @@ from algorithmsRunner import algorithmsRunner
 from instances import getRandomInstance
 from result import result
 from algorithms.algoInfo import algoList
-try:
-    from randomConfiguration import configuration
-except:
-    assert False, "Please first run main.py to create randomConfiguration.py"
 
 ### Only change these ###
 # Recommended: nCentersList = [2, 5, 15], maxPoints = 200, maxTime = 0.3 (ca. 1 minute)
