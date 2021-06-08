@@ -32,7 +32,7 @@ def getBankPoints(colorType):
     #     data = list(csv_reader)
 
     # change nrows to read more of the dataset
-    df = pd.read_csv('./data/bank/bank-full.csv',sep=';', header = None, skiprows= 1, nrows=5000)
+    df = pd.read_csv('./data/bank/bank-full.csv',sep=';', header = None, skiprows= 1, nrows=45000)
     pdDict = df.rename({0: "age", 1: "job", 3: "education", 5: "balance", 6: "housing", 7: "loan", 14: 'previous'}, axis = 'columns').T.to_dict()
     data = [person for index, person in pdDict.items()]
     cleanData = clean(data)
