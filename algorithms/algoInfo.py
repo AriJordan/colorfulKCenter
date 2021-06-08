@@ -24,15 +24,15 @@ class algoInfo:
 # The letter representing the algorithm and the color must be unique
 algoList = [ 
     # Guaranteed approximations
-    algoInfo("G85", algoG85, "g", "g"),
-    algoInfo("HS86", algoHS86, "h", "y"),
-    algoInfo("CKMN01", algoCKMN01, "c", "c"),
-    algoInfo("BIPV19", algoBIPV19, "b", "b"),
-    algoInfo("JSS20", algoJSS20, "j", "r"),
+    algoInfo("Furthest", algoG85, "g", "g"), # Gonzales 1985
+    algoInfo("Disks", algoHS86, "h", "y"), # Hochbaum & Shmoys 1986
+    algoInfo("Densest", algoCKMN01, "c", "c"),
+    algoInfo("Helper LP", algoBIPV19, "b", "b"),
+    algoInfo("EPFL 3-Approx", algoJSS20, "j", "r"),
     algoInfo("Optimal", algoBruteForce, "o", "k"),
     # Heuristics
     algoInfo("Random", algoRandomCenters, "r", "m"),
-    algoInfo("helperLP", algoLPhHeuristic, "l", "#F79245"),
-    algoInfo("hillClimbing", algoHillClimbing, "i", "#00FD80"),
-    algoInfo("hillClimbKDTree", algoHillClimbingKDTree, "k", "#00FAFF")
+    algoInfo("Helper LP", algoLPhHeuristic, "l", "#F79245"),
+    #algoInfo("Hill Climbing", algoHillClimbing, "i", "#00FD80"), # old
+    algoInfo("Hill Climb", algoHillClimbingKDTree, "k", "#00FAFF")
 ]
