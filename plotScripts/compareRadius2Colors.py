@@ -11,7 +11,7 @@ from result import result
 from algorithms.algoInfo import algoList
 
 ### Only change these ###
-algoLetters = "ghcbori"
+algoLetters = "ghcborkj"
 random.seed(0)
 nColors = 2
 nCenters = [2, 4] # Number of centers

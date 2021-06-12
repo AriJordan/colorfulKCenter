@@ -11,14 +11,17 @@ from result import result
 from algorithms.algoInfo import algoList
 
 ### Only change these ###
-# Recommended: algoLetters = "ghcbori", nCenters = 3, nPointsList = [10, 50], nOutliersList = [0, 5], nRuns = 30 (ca. 2 minutew)
-#          or: 
-algoLetters = "ghcbori"
+# Recommended: nColors = 1, algoLetters = "ghcbork", nCenters = 3, nPointsList = [10, 50], nOutliersList = [0, 5], nRuns = 30 (ca. 2 minutew)
+#          or: nColors = 1, algoLetters = "ghrk", nCenters = 10, nPointsList = [100, 300], nOutliersList = [0, 50], nRuns = 30
+#          or: nColors = 2, algoLetters = "ghcborkj", nCenters = 4, nPointsList = [10, 20], nOutliersList = [0, 5], nRuns = 30
+#          or: nColors = 2, algoLetters = "ghrk", nCenters = 10, nPointsList = [100, 300], nOutliersList = [0, 5], nRuns = 30
+
 random.seed(0)
-nColors = 1
+nColors = 2
+algoLetters = "j"
 nCenters = 3 # Number of centers
-nPointsList = [10, 50] # Number of points
-nOutliersList = [0, 5] # Numbers of outliers
+nPointsList = [[20, 20], [50, 50]] # Number of points
+nOutliersList = [[0, 0], [0, 15]] # Numbers of outliers
 distribution = "uniform"
 nRuns = 30 # Number of times to run algorithms
 #########################
@@ -31,7 +34,7 @@ for algoId in range(len(algoList)):
 nSubplots1 = len(nPointsList)
 nSubplots2 = len(nOutliersList)
 fig, axs = plt.subplots(nSubplots1, nSubplots2, figsize=(6 * nSubplots1, 6 * nSubplots2))
-fig.suptitle('Approximation ratio for 1 color and ' + str(nCenters) + ' centers over ' + str(nRuns) + ' runs for ' + distribution + 'ly distributed points')
+fig.suptitle('Approximation ratio for ' + str(nColors) + ' colors and ' + str(nCenters) + ' centers over ' + str(nRuns) + ' runs for ' + distribution + 'ly distributed points')
 plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []
@@ -43,7 +46,7 @@ for subplotId1 in range(nSubplots1):
         allResults = [[] for _ in range(len(algoList))]
 
         for run in range(nRuns):
-            instance = getRandomInstance(nColors=nColors, nPoints=[nPoints], distribution=distribution, nCenters=nCenters, p=[nPoints - nOutliers])
+            instance = getRandomInstance(nColors=nColors, nPoints=nPoints, distribution=distribution, nCenters=nCenters, p=[nPoints[i] - nOutliers[i] for i in range(nColors)])
             algoRunner = algorithmsRunner(algoSelection, instance)
             results = algoRunner.runAlgorithmsOnce()
             for res in results:
