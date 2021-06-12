@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from numpy import zeros
+from datetime import datetime
 from algorithms.algoInfo import algoList
 
 def printOutput(results):
@@ -29,6 +30,7 @@ def printOutput(results):
                 y = result.points[pointCol][pointId][1]
                 dot, = plt.plot(x, y, "o", color=pointColors[pointCol])
     plt.legend(legendCircles, legendNames)
+    plt.savefig(datetime.now().strftime("plots\\outputCenters_%d-%m-%Y_%H;%M;%S"))
     plt.show()
 
     print("End reached!")
