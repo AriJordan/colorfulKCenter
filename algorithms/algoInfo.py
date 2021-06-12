@@ -32,7 +32,7 @@ algoList = [
     algoInfo("Optimal", algoBruteForce, "o", "k"),
     # Heuristics
     algoInfo("Random", algoRandomCenters, "r", "m"),
-    algoInfo("Helper LP", algoLPhHeuristic, "l", "#F79245"),
-    #algoInfo("Hill Climbing", algoHillClimbing, "i", "#00FD80"), # old
-    algoInfo("Hill Climb", algoHillClimbingKDTree, "k", "#00FAFF")
+    algoInfo("LP Heuristic", algoLPhHeuristic, "l", "#F79245"),
+    #algoInfo("Hill Climbing", algoHillClimbing, "i", "#00FAFF"), # old
+    algoInfo("Hill Climb", algoHillClimbingKDTree, "k", "#00FD80")
 ]
