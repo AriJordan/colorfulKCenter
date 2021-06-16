@@ -32,18 +32,19 @@ plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []
 for subplotId in range(nSubplots):
-    optResults = []
+    bestResults = []
     allResults = [[] for _ in range(len(algoList))]
     for run in range(nRuns):
         trash, instance = getInput("bank")
         algoRunner = algorithmsRunner(algoSelection, instance)
         results = algoRunner.runAlgorithmsOnce()
+        bestResult = inf
         for res in results:
             allResults[res.algoId].append(res.radius)
-            if algoList[res.algoId].letter == "o":
-                optResults.append(res.radius)
+            bestResult = min(bestResult, res.radius)
+        bestResults.append(bestResult)
         for res in results:
-            allResults[res.algoId][run] = allResults[res.algoId][run] / optResults[run]
+            allResults[res.algoId][run] = allResults[res.algoId][run] / bestResults[run]
 
     bp = axs[subplotId].boxplot([allResults[i] for i in range(len(algoSelection)) if algoSelection[i]])
     axs[subplotId].set_xticklabels([algoList[i].name for i in range(len(algoSelection)) if algoSelection[i]])

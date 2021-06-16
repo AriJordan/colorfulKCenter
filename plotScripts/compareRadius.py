@@ -3,7 +3,7 @@ if __name__ == "__main__":
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-from numpy import column_stack, full, random
+from numpy import column_stack, full, random, inf
 from datetime import datetime
 from algorithmsRunner import algorithmsRunner
 from instances import getRandomInstance
@@ -42,19 +42,20 @@ for subplotId1 in range(nSubplots1):
     for subplotId2 in range(nSubplots2):
         nPoints = nPointsList[subplotId1]
         nOutliers = nOutliersList[subplotId2]
-        optResults = []
+        bestResults = []
         allResults = [[] for _ in range(len(algoList))]
 
         for run in range(nRuns):
             instance = getRandomInstance(nColors=nColors, nPoints=nPoints, distribution=distribution, nCenters=nCenters, p=[nPoints[i] - nOutliers[i] for i in range(nColors)])
             algoRunner = algorithmsRunner(algoSelection, instance)
             results = algoRunner.runAlgorithmsOnce()
+            bestResult = inf
             for res in results:
                 allResults[res.algoId].append(res.radius)
-                if algoList[res.algoId].name == "Optimal":
-                    optResults.append(res.radius)
+                bestResult = min(bestResult, res.radius)
+            bestResults.append(bestResult)
             for res in results:
-                allResults[res.algoId][run] = allResults[res.algoId][run] / optResults[run]
+                allResults[res.algoId][run] = allResults[res.algoId][run] / bestResults[run]
 
         bp = axs[subplotId1][subplotId2].boxplot([allResults[i] for i in range(len(algoSelection)) if algoSelection[i]])
         axs[subplotId1][subplotId2].set_xticklabels([algoList[i].name for i in range(len(algoSelection)) if algoSelection[i]])
