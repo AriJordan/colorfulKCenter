@@ -43,7 +43,7 @@ def solveLPh(nPoints, S, r_D, b_D, red, blue, k):
         A[2 + vPos][vPos] = 1
         b[2 + vPos] = 1
 
-    y = zeros((sum(nPoints)))
+    y = zeros((len(SIds)))
     nCenters, y = LPSolver(A, b, c).solve(y)
     assert nCenters <= k + 1e-6 and nCenters >= -1e-6
     yInd = zeros(len(S))
