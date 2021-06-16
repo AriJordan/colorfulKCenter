@@ -224,6 +224,8 @@ def A_d(nPoints, graph, P_d, I, k_d, r_d, b_d, D, radius):
         return [], False
 
 def getBluePseudo(graph, nColors, nCenters, nPoints, p, radius):
+    if sum(nPoints) == 0:
+        return [], True
     x, z, success = solveLPc(nColors, nCenters, nPoints, p, graph, radius)
     if not success:
         return [], False

@@ -18,7 +18,7 @@ from algorithms.algoInfo import algoList
 
 random.seed(0)
 nColors = 2
-algoLetters = "j"
+algoLetters = "jo"
 nCenters = 3 # Number of centers
 nPointsList = [[20, 20], [50, 50]] # Number of points
 nOutliersList = [[0, 0], [0, 15]] # Numbers of outliers
