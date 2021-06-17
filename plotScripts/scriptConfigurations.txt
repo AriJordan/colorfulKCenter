@@ -1,0 +1,38 @@
+# This file is to copy-paste different configurations into the scripts
+# compareRadius.py
+
+nColors = 1
+algoLetters = "ghcbork"
+nCenters = 3
+nPointsList = [[10], [50]]
+nOutliersList = [[0], [5]]
+
+nColors = 1
+algoLetters = "ghcbrk"
+nCenters = 20
+nPointsList = [[50], [150]]
+nOutliersList = [[0], [25]]
+
+nColors = 2
+algoLetters = "ghcborkj"
+nCenters = 4
+nPointsList = [[10, 10], [10, 20]]
+nOutliersList = [[0, 0], [0, 5]]
+
+nColors = 2
+algoLetters = "ghcrk"
+nCenters = 20
+nPointsList = [[25, 25], [75, 75]]
+nOutliersList = [[0, 0], [0, 20]]
+
+nColors = 5
+algoLetters = "ghcbork"
+nCenters = 3
+nPointsList = [[2 for _ in range(nColors)], [5 for _ in range(nColors)]]
+nOutliersList = [[0 for _ in range(nColors)], [1 for _ in range(nColors)]]
+
+nColors = 5
+algoLetters = "ghcrk"
+nCenters = 20
+nPointsList = [[10 for _ in range(nColors)], [20 for _ in range(nColors)]]
+nOutliersList = [[0 for _ in range(nColors)], [5 for _ in range(nColors)]]

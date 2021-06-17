@@ -11,17 +11,14 @@ from result import result
 from algorithms.algoInfo import algoList
 
 ### Only change these ###
-# Recommended: nColors = 1, algoLetters = "ghcbork", nCenters = 3, nPointsList = [10, 50], nOutliersList = [0, 5], nRuns = 30 (ca. 2 minutew)
-#          or: nColors = 1, algoLetters = "ghrk", nCenters = 10, nPointsList = [100, 300], nOutliersList = [0, 50], nRuns = 30
-#          or: nColors = 2, algoLetters = "ghcborkj", nCenters = 4, nPointsList = [10, 20], nOutliersList = [0, 5], nRuns = 30
-#          or: nColors = 2, algoLetters = "ghrk", nCenters = 10, nPointsList = [100, 300], nOutliersList = [0, 5], nRuns = 30
+# See scriptConfigurations.txt for some possible configurations
 
 random.seed(0)
-nColors = 2
-algoLetters = "jo"
-nCenters = 3 # Number of centers
-nPointsList = [[20, 20], [50, 50]] # Number of points
-nOutliersList = [[0, 0], [0, 15]] # Numbers of outliers
+nColors = 5
+algoLetters = "ghcrk"
+nCenters = 20
+nPointsList = [[10 for _ in range(nColors)], [20 for _ in range(nColors)]]
+nOutliersList = [[0 for _ in range(nColors)], [5 for _ in range(nColors)]]
 distribution = "uniform"
 nRuns = 30 # Number of times to run algorithms
 #########################
@@ -46,6 +43,7 @@ for subplotId1 in range(nSubplots1):
         allResults = [[] for _ in range(len(algoList))]
 
         for run in range(nRuns):
+            print("Subplot: (", subplotId1, ", ", subplotId2, "), run: ", run+1, sep="")
             instance = getRandomInstance(nColors=nColors, nPoints=nPoints, distribution=distribution, nCenters=nCenters, p=[nPoints[i] - nOutliers[i] for i in range(nColors)])
             algoRunner = algorithmsRunner(algoSelection, instance)
             results = algoRunner.runAlgorithmsOnce()

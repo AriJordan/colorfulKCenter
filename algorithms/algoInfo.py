@@ -28,7 +28,7 @@ algoList = [
     algoInfo("Disks", algoHS86, "h", "y"), # Hochbaum & Shmoys 1986
     algoInfo("Densest", algoCKMN01, "c", "c"),
     algoInfo("Helper LP", algoBIPV19, "b", "b"),
-    algoInfo("EPFL 3-Approx", algoJSS20, "j", "r"),
+    algoInfo("EPFL 3", algoJSS20, "j", "r"),
     algoInfo("Optimal", algoBruteForce, "o", "k"),
     # Heuristics
     algoInfo("Random", algoRandomCenters, "r", "m"),
