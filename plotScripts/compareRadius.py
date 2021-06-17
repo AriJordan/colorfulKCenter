@@ -14,11 +14,11 @@ from algorithms.algoInfo import algoList
 # See scriptConfigurations.txt for some possible configurations
 
 random.seed(0)
-nColors = 5
-algoLetters = "ghcrk"
-nCenters = 20
-nPointsList = [[10 for _ in range(nColors)], [20 for _ in range(nColors)]]
-nOutliersList = [[0 for _ in range(nColors)], [5 for _ in range(nColors)]]
+nColors = 2
+algoLetters = "ghcborkj"
+nCenters = 4
+nPointsList = [[10, 10], [10, 20]]
+nOutliersList = [[0, 0], [0, 5]]
 distribution = "uniform"
 nRuns = 30 # Number of times to run algorithms
 #########################
