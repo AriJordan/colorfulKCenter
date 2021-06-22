@@ -73,7 +73,7 @@ class simplexLPSolver():
                                            self.D[r][self.n+1] / self.D[r][s], self.B[r]):
                     r = i
             if r == -1:
-                return false
+                return False
             self.pivot(r, s)
 
     # Return: optimal value

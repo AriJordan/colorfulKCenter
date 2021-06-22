@@ -29,7 +29,7 @@ class gurobiLPSolver():
 
                 xvars = array([model.addVar(lb=0) for _ in x])
 
-                model.setObjective(sum(self.c * xvars), GRB.MAXIMIZE)
+                model.setObjective(sum(self.c * xvars), GRB.MINIMIZE)
 
                 for i in range(self.m):
                     model.addConstr(sum(self.A[i, :]*xvars) <= self.b[i])
