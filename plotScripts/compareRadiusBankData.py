@@ -3,7 +3,7 @@ if __name__ == "__main__":
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
-from numpy import column_stack, full, random
+from numpy import column_stack, full, random, inf
 from datetime import datetime
 from algorithmsRunner import algorithmsRunner
 from input import getInput
@@ -15,7 +15,7 @@ except:
     assert False, "Please fix bankConfiguration.py"
 
 ### Only change these ###
-algoLetters = "ghcbork"
+algoLetters = "ghcbrk"
 random.seed(0)
 nRuns = 30 # Number of times to run algorithms
 #########################
@@ -25,9 +25,9 @@ for algoId in range(len(algoList)):
     if algoLetters.count(algoList[algoId].letter):
         algoSelection[algoId] = True
 
-nSubplots = 2
-fig, axs = plt.subplots(1, nSubplots, figsize=(6 * nSubplots, 5))
-fig.suptitle('Approximation ratio for bank data with ' + str(bankConfiguration["totalPoints"]) + ' points and coverage percentage: ' + str(100 * bankConfiguration["percentage"]))
+nSubplots = 1
+fig, axs = plt.subplots(2, nSubplots, figsize=(6 * nSubplots, 5))
+fig.suptitle('Approx. ratio for bank data with ' + str(bankConfiguration["totalPoints"]) + ' points, ' + str(bankConfiguration["nCenters"]) + ' centers and coverage required: ' + str(100 * bankConfiguration["percentage"]) + '%')
 plt.subplots_adjust(left=0.05, right=0.95, top=0.9, bottom=0.1)
 legendLines = []
 legendNames = []

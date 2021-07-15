@@ -41,7 +41,7 @@ def randomEuclPoints(nColors, nPoints, distribution="normal", EuclidDim=2):
             elif distribution == "normal":
                 points[col][pointId] = random.standard_normal(size=EuclidDim)
             elif distribution == "exponential":
-                points[col][pointId] = random.standard_exponential(size=EuclidDim)
+                points[col][pointId] = random.exponential(scale=1.0, size=EuclidDim)
             else:
                 assert False, "Error: Unknown distribution"
 

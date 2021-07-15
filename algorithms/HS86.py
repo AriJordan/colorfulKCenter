@@ -1,4 +1,5 @@
 from numpy import zeros, ones, full, sort
+from timeit import default_timer as timer
 from algorithms.binarySearchRadius import binarySearchRadius
 from algorithms.simplifyGraph import ignoreColors, getColor, getPId, getOlds
 
@@ -28,11 +29,12 @@ def algoHS86(nColors, nCenters, nPoints, p, graph):
 	if nColors > 1:
 		graph = ignoreColors(nColors, nPoints, graph)
 	assert len(graph[0]) == sum(nPoints)
+	startTime = timer()
 
 	centerIds = binarySearchRadius(fixedRadiusHS86, 1, nCenters, [sum(nPoints)], [sum(p)], graph)
 
 	if nColors > 1:
 		centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds)) if centerIds[i][1] != -1])
-	return centerIds
+	return centerIds, startTime
 	
 

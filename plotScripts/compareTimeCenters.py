@@ -13,7 +13,7 @@ from algorithms.algoInfo import algoList
 # Recommended: nCentersList = [2, 5, 15], maxPoints = 200, maxTime = 0.3 (ca. 1 minute)
 maxCenters = 50 # Maximum number of centers
 nPointsList = [50, 100] # Number of points
-maxTime = 30 # Maximum time allowed per algorithm run
+maxTime = 10 # Maximum time allowed per algorithm run
 nColors = 1
 distribution="uniform"
 #########################

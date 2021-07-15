@@ -15,12 +15,12 @@ from algorithms.algoInfo import algoList
 
 random.seed(0)
 nColors = 2
-algoLetters = "ghcborkj"
-nCenters = 4
-nPointsList = [[10, 10], [10, 20]]
-nOutliersList = [[0, 0], [0, 5]]
-distribution = "uniform"
-nRuns = 30 # Number of times to run algorithms
+algoLetters = "ghcbrk"
+nCenters = 20
+nPointsList = [[70, 70], [30, 30]]
+nOutliersList = [[0, 0], [0, 20]]
+distribution = "exponential"
+nRuns = 10 # Number of times to run algorithms
 #########################
 
 algoSelection = full((len(algoList)), False)

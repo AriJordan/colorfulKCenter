@@ -2,7 +2,7 @@ if __name__ == "__main__":
     import allowScriptMain
 
 import matplotlib.pyplot as plt
-from numpy import array, full
+from numpy import array, copy, full
 from datetime import datetime
 from algorithmsRunner import algorithmsRunner
 from instances import getRandomInstance
@@ -12,10 +12,11 @@ from algorithms.algoInfo import algoList
 ### Only change these ###
 # Recommended: nCentersList = [2, 5, 15], maxPoints = 200, maxTime = 0.3 (ca. 1 minute)
 nCentersList = [2, 10] # Different numbers of centers
-maxPoints = 200 # Maximum number of points
-maxTime = 0.2 # Maximum time allowed per algorithm run
+maxPoints = 1000 # Maximum number of points
+maxTime = 10 # Maximum time allowed per algorithm run
 nColors = 1
 distribution="uniform"
+algos = array([(algo.letter != 'j' and algo.letter!= 'l') for algo in algoList])
 #########################
 
 fig, axs = plt.subplots(1, len(nCentersList), figsize=(6 * len(nCentersList), 5))
@@ -25,7 +26,7 @@ legendLines = []
 legendNames = []
 nPointsList = [[] for _ in range(len(nCentersList))]
 for nCentersId in range(len(nCentersList)):
-    algoSelection = array([(algo.letter != 'j' and algo.letter!= 'l') for algo in algoList])
+    algoSelection = copy(algos)
     allResults = [[] for _ in range(len(algoList))]
 
     nPoints = nCentersList[nCentersId]
@@ -39,13 +40,15 @@ for nCentersId in range(len(nCentersList)):
             if res.timeConsumed > maxTime: # Don't run algorithms for more than maxTime seconds
                 algoSelection[res.algoId] = False
         nPoints = int(nPoints * 1.05 + 1)
-          
+     
+    algoSelection = copy(algos)
     for algoId in range(len(algoList)):
-        line, = axs[nCentersId].loglog(nPointsList[nCentersId][0:len(allResults[algoId])], allResults[algoId], color = algoList[algoId].color)
-        if nCentersId == 0:
-            legendLines.append(line)
-            legendNames.append(algoList[algoId].name)
-    axs[nCentersId].set_title("#centers = " + str(nCentersList[nCentersId]))  
+        if algoSelection[algoId]:
+            line, = axs[nCentersId].loglog(nPointsList[nCentersId][0:len(allResults[algoId])], allResults[algoId], color = algoList[algoId].color)
+            if nCentersId == 0:
+                legendLines.append(line)
+                legendNames.append(algoList[algoId].name)
+    axs[nCentersId].set_title("#centers = " + str(nCentersList[nCentersId]))
     axs[nCentersId].set(xlabel='#points', ylabel='time consumed')
     axs[nCentersId].legend(legendLines, legendNames)
 

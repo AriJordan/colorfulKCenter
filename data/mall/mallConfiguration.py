@@ -1,7 +1,7 @@
 from numpy import array
 mallConfiguration = {
-    "algoLetters" : "rob",  #ghcbo",
-    "nCenters" : 2,
+    "algoLetters" : "ghcborkj",  #rob",
+    "nCenters" : 4,
     "totalPoints" : 50,
     "p" : array([10,20]),
     "fixSeed" : False,

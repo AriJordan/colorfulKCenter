@@ -34,5 +34,5 @@ algoList = [
     algoInfo("Random", algoRandomCenters, "r", "m"),
     algoInfo("LP Heuristic", algoLPhHeuristic, "l", "#F79245"),
     #algoInfo("Hill Climbing", algoHillClimbing, "i", "#00FAFF"), # old
-    algoInfo("Hill Climb", algoHillClimbingKDTree, "k", "#00FD80")
+    algoInfo("Hill Climb", algoHillClimbingKDTree, "k", "#FFA500") # "#00FD80"
 ]

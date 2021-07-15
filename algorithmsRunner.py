@@ -48,6 +48,8 @@ class algorithmsRunner():
         startTime = timer()
         if algoList[algoId].letter == 'k':
             centerIds = algoList[algoId].algo(self.nColors, self.nCenters, self.nPoints, self.p, self.graph, self.points)
+        elif algoList[algoId].letter == 'g' or algoList[algoId].letter == 'h': # Don't count the preprocessing as runtime
+            centerIds, startTime = algoList[algoId].algo(self.nColors, self.nCenters, self.nPoints, self.p, self.graph)
         else:
             centerIds = algoList[algoId].algo(self.nColors, self.nCenters, self.nPoints, self.p, self.graph)
         endTime = timer()

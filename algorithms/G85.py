@@ -1,4 +1,5 @@
 from numpy import array, full, zeros, inf
+from timeit import default_timer as timer
 from algorithms.simplifyGraph import ignoreColors, getColor, getPId, getOlds
 
 # Return: 2-approximation by Gonzales
@@ -7,6 +8,7 @@ def algoG85(nColors, nCenters, nPoints, p, graph):
     assert nColors == len(graph)
     if nColors > 1:
         graph = ignoreColors(nColors, nPoints, graph)
+    startTime = timer()
    
     minDists = full(sum(nPoints), inf)
     centerIds = full((nCenters, 2), -1)
@@ -26,4 +28,4 @@ def algoG85(nColors, nCenters, nPoints, p, graph):
     if nColors > 1:
         centerIds = getOlds(nPoints, [centerIds[i][1] for i in range(len(centerIds)) if centerIds[i][1] != -1])
         
-    return centerIds
+    return centerIds, startTime
